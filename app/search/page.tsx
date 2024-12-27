@@ -1,4 +1,6 @@
+import SearchInput from "../_components/SearchInput";
+
 const Search = () => {
-  return <div>Search</div>;
+  return <SearchInput />;
 };
 export default Search;

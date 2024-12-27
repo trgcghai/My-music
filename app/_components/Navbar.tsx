@@ -1,5 +1,6 @@
 "use client";
 import {
+  AddCircleOutline,
   FavoriteBorderRounded,
   HomeRounded,
   PlaylistPlayRounded,
@@ -26,11 +27,14 @@ const Navbar = () => {
         <HomeRounded />
         <span>home</span>
       </Link>
+      <p className={getClassName("/addsong") + " cursor-pointer"}>
+        <AddCircleOutline />
+        <span>Upload your songs</span>
+      </p>
       <Link className={getClassName("/search")} href={"/search"}>
         <SearchRounded />
         <span>Search</span>
       </Link>
-
       <Link className={getClassName("/playlist")} href={"/playlist"}>
         <PlaylistPlayRounded />
         Playlist
