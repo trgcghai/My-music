@@ -4,8 +4,10 @@
 
 :root {
   --bgColor: #121c21;
+  --bgDarkColor: #0e161a;
   --bgLightColor: #19272e;
   --textColor: #b9c4ca;
   --textDark: #5a6a73;
   --main: #1677ff;
+  --bgHover: rgb(55, 65, 81);
 }

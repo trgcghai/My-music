@@ -15,7 +15,7 @@ const Navbar = () => {
 
   const getClassName = (pathArg: string) => {
     const linkClassName =
-      "flex w-full items-center gap-2 rounded-md p-2 text-lg font-bold hover:bg-gray-700";
+      "flex w-full items-center gap-2 rounded-md p-2 text-lg font-bold hover:bg-bgHover";
 
     if (path == pathArg) return linkClassName + " bg-main text-white";
     return linkClassName;

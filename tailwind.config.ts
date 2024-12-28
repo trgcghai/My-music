@@ -11,9 +11,11 @@ export default {
       colors: {
         bgColor: "var(--bgColor)",
         bgLightColor: "var(--bgLightColor)",
+        bgDarkColor: "var(--bgDarkColor)",
         textColor: "var(--textColor)",
         textDark: "var(--textDark)",
         main: "var(--main)",
+        bgHover: "var(--bgHover)",
       },
     },
   },
