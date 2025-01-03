@@ -1,10 +1,8 @@
 "use client";
 import {
-  AddCircleOutline,
-  FavoriteBorderRounded,
+  Audiotrack,
   HomeRounded,
   PlaylistPlayRounded,
-  SearchRounded,
   SettingsRounded,
 } from "@mui/icons-material";
 import Link from "next/link";
@@ -27,21 +25,13 @@ const Navbar = () => {
         <HomeRounded />
         <span>home</span>
       </Link>
-      <p className={getClassName("/addsong") + " cursor-pointer"}>
-        <AddCircleOutline />
-        <span>Upload your songs</span>
-      </p>
-      <Link className={getClassName("/search")} href={"/search"}>
-        <SearchRounded />
-        <span>Search</span>
-      </Link>
       <Link className={getClassName("/playlist")} href={"/playlist"}>
         <PlaylistPlayRounded />
         Playlist
       </Link>
-      <Link className={getClassName("/favorite")} href={"/favorite"}>
-        <FavoriteBorderRounded />
-        Favorite
+      <Link className={getClassName("/song")} href={"/song"}>
+        <Audiotrack />
+        Song
       </Link>
       <Link className={getClassName("/setting")} href={"/setting"}>
         <SettingsRounded />
