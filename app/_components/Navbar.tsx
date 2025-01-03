@@ -7,10 +7,18 @@ import {
 } from "@mui/icons-material";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ReactNode } from "react";
 
-const Navbar = () => {
+const NavbarItem = ({
+  href = "",
+  icon,
+  content = "",
+}: {
+  href: string;
+  icon: ReactNode;
+  content: string;
+}) => {
   const path = usePathname();
-
   const getClassName = (pathArg: string) => {
     const linkClassName =
       "flex w-full items-center gap-2 rounded-md p-2 text-lg font-bold hover:bg-bgHover";
@@ -20,23 +28,28 @@ const Navbar = () => {
   };
 
   return (
+    <Link className={getClassName(href)} href={href}>
+      {icon}
+      <span>{content}</span>
+    </Link>
+  );
+};
+
+const Navbar = () => {
+  return (
     <div className="flex flex-1 flex-col items-start gap-2 bg-bgLightColor p-4 capitalize text-textColor">
-      <Link className={getClassName("/")} href={"/"}>
-        <HomeRounded />
-        <span>home</span>
-      </Link>
-      <Link className={getClassName("/playlist")} href={"/playlist"}>
-        <PlaylistPlayRounded />
-        Playlist
-      </Link>
-      <Link className={getClassName("/song")} href={"/song"}>
-        <Audiotrack />
-        Song
-      </Link>
-      <Link className={getClassName("/setting")} href={"/setting"}>
-        <SettingsRounded />
-        Setting
-      </Link>
+      <NavbarItem href="/" icon={<HomeRounded />} content="Home" />
+      <NavbarItem
+        href="/playlist"
+        icon={<PlaylistPlayRounded />}
+        content="Playlist"
+      />
+      <NavbarItem href="/song" icon={<Audiotrack />} content="Song" />
+      <NavbarItem
+        href="/setting"
+        icon={<SettingsRounded />}
+        content="Setting"
+      />
     </div>
   );
 };
