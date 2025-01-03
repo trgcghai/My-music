@@ -1,13 +1,4 @@
 "use client";
-import {
-  PlayArrow,
-  Replay,
-  Shuffle,
-  SkipNext,
-  SkipPrevious,
-} from "@mui/icons-material";
-import { Progress } from "antd";
-import { ToggleIcon } from "../ToggleIcon";
 import VolumeSlider from "../VolumeSlider";
 import SongInfoCard from "./SongInfoCard";
 import Toolbar from "./Toolbar";
