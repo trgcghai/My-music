@@ -1,29 +1,16 @@
 "use client";
 import { AddCircleOutline } from "@mui/icons-material";
-import { Button, ConfigProvider, Modal } from "antd";
+import { Button } from "antd";
 import SongRow from "../_components/SongRow";
-import { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import { useState } from "react";
 import DragFileInput from "../_components/DragFileInput";
+import CustomModal from "../_components/CustomModal";
 
 const Song = () => {
-  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
   const showModal = () => {
     setOpen(true);
-  };
-
-  const handleOk = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setOpen(false);
-    }, 3000);
-  };
-
-  const handleCancel = () => {
-    setOpen(false);
   };
 
   return (
@@ -40,28 +27,12 @@ const Song = () => {
         </Button>
       </div>
       <div className="no-scrollbar mt-2 h-[85%] space-y-4 overflow-scroll">
-        <SongRow />
-        <SongRow />
-        <SongRow />
-        <SongRow />
-        <SongRow />
-        <SongRow />
-        <SongRow />
-        <SongRow />
-        <SongRow />
-        <SongRow />
-        <SongRow />
-        <SongRow />
-        <SongRow />
-        <SongRow />
-        <SongRow />
-        <SongRow />
-        <SongRow />
-        <SongRow />
-        <SongRow />
+        {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, index) => {
+          return <SongRow key={index} />;
+        })}
       </div>
 
-      <ConfigProvider
+      {/* <ConfigProvider
         theme={{
           components: {
             Modal: {
@@ -98,9 +69,13 @@ const Song = () => {
             </Button>,
           ]}
         >
-          <DragFileInput className="text-md flex cursor-pointer items-center justify-center gap-2 rounded-md border-0 bg-gray-800 p-3 text-lg text-white hover:bg-bgHover" />
+          <DragFileInput className="text-md flex h-[100px] cursor-pointer items-center justify-center gap-2 rounded-md border-0 bg-gray-800 p-3 text-lg text-white hover:bg-bgHover" />
         </Modal>
-      </ConfigProvider>
+      </ConfigProvider> */}
+
+      <CustomModal open={open} setOpen={setOpen}>
+        <DragFileInput className="text-md flex h-[100px] cursor-pointer items-center justify-center gap-2 rounded-md border-0 bg-gray-800 p-3 text-lg text-white hover:bg-bgHover" />
+      </CustomModal>
     </>
   );
 };
