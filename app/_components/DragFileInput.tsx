@@ -18,7 +18,7 @@ const DragFileInput = () => {
         {isDragActive ? (
           <p>Drop the files here ...</p>
         ) : (
-          <div className="text-md flex w-[500px] cursor-pointer items-center justify-center gap-2 rounded-md border bg-bgLightColor p-3 hover:bg-bgHover">
+          <div className="text-md flex w-[500px] cursor-pointer items-center justify-center gap-2 rounded-md border-0 bg-main p-3 text-lg font-bold text-white hover:bg-bgHover">
             <AddCircleOutline />
             <p>Chose your files or Drag n drop it here</p>
           </div>
