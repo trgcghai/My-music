@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const MediaCard = () => {
   return (
-    <div className="relative cursor-pointer rounded-xl">
+    <div className="relative cursor-pointer rounded-xl bg-bgDarkColor p-2 hover:bg-bgLightColor">
       <Image
         src="https://placehold.co/200x200"
         width={200}
@@ -10,9 +10,7 @@ const MediaCard = () => {
         className="rounded-xl"
         alt=""
       />
-      <p className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] text-center text-lg font-bold text-textColor">
-        Your playlists
-      </p>
+      <p className="mt-1 p-1 text-lg font-bold text-textColor">Your Media</p>
     </div>
   );
 };
