@@ -1,14 +1,16 @@
 import { Button, ConfigProvider, Modal } from "antd";
-import { Dispatch, ReactElement, SetStateAction, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction, useState } from "react";
 
 const CustomModal = ({
   open,
   setOpen,
+  title,
   children,
 }: {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  children: ReactElement;
+  title: string;
+  children: ReactNode;
 }) => {
   const [loading, setLoading] = useState(false);
 
@@ -39,7 +41,7 @@ const CustomModal = ({
     >
       <Modal
         open={open}
-        title="Upload your songs"
+        title={title}
         onOk={handleOk}
         closable={false}
         onCancel={handleCancel}

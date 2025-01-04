@@ -73,7 +73,7 @@ const Song = () => {
         </Modal>
       </ConfigProvider> */}
 
-      <CustomModal open={open} setOpen={setOpen}>
+      <CustomModal open={open} setOpen={setOpen} title="Upload your songs">
         <DragFileInput className="text-md flex h-[100px] cursor-pointer items-center justify-center gap-2 rounded-md border-0 bg-gray-800 p-3 text-lg text-white hover:bg-bgHover" />
       </CustomModal>
     </>
