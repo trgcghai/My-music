@@ -1,10 +1,10 @@
 "use client";
 import { AddCircleOutline } from "@mui/icons-material";
 import { Button } from "antd";
-import SongRow from "../_components/SongRow";
 import { useState } from "react";
 import DragFileInput from "../_components/DragFileInput";
 import CustomModal from "../_components/CustomModal";
+import TableSongs from "../_components/TableSongs";
 
 const Song = () => {
   const [open, setOpen] = useState(false);
@@ -27,9 +27,12 @@ const Song = () => {
         </Button>
       </div>
       <div className="no-scrollbar mt-2 h-[85%] space-y-4 overflow-scroll">
-        {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, index) => {
-          return <SongRow key={index} />;
-        })}
+        <TableSongs
+          title=""
+          canSeeAll={false}
+          songs={[]}
+          numberDisplayed={100}
+        />
       </div>
 
       <CustomModal open={open} setOpen={setOpen} title="Upload your songs">

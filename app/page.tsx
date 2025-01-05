@@ -17,7 +17,7 @@ export default function Home() {
       </div>
 
       <div className="mt-8">
-        <TableSongs />
+        <TableSongs title="Your songs" songs={[]} />
       </div>
     </div>
   );
