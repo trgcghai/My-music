@@ -1,9 +1,9 @@
 "use client";
 import { AddCircleOutline } from "@mui/icons-material";
 import { Button, Input } from "antd";
-import MediaCard from "../_components/MediaCard";
 import { useState } from "react";
 import CustomModal from "../_components/CustomModal";
+import PlaylistCard from "../_components/PlaylistCard";
 
 const Playlist = () => {
   const [open, setOpen] = useState(false);
@@ -26,7 +26,7 @@ const Playlist = () => {
       </div>
       <div className="mt-6 grid grid-cols-6 gap-8">
         {[1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, index) => {
-          return <MediaCard key={index} />;
+          return <PlaylistCard key={index} id={index} />;
         })}
       </div>
 

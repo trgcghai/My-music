@@ -22,8 +22,14 @@ const NavbarItem = ({
   const getClassName = (pathArg: string) => {
     const linkClassName =
       "flex w-full items-center gap-2 rounded-md p-2 text-lg font-bold hover:bg-bgHover";
+    console.log("check path split >> ", path.split("/"));
+    console.log("check path arg >> ", pathArg.split("/")[1]);
 
-    if (path == pathArg) return linkClassName + " bg-main text-white";
+    if (
+      (path == "/" && pathArg == "/") ||
+      path.split("/").find((item) => item == pathArg.split("/")[1])
+    )
+      return linkClassName + " bg-main text-white";
     return linkClassName;
   };
 

@@ -6,7 +6,7 @@ const TableSongs = () => {
     <>
       <div className="flex items-end justify-between px-2">
         <p className="text-xl font-bold">Your songs</p>
-        <Link href={"/songs"} className="text-lg hover:text-main">
+        <Link href={"/song"} className="text-lg hover:text-main">
           See all
         </Link>
       </div>
