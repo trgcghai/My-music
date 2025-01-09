@@ -3,7 +3,6 @@ import {
   Audiotrack,
   HomeRounded,
   PlaylistPlayRounded,
-  SettingsRounded,
 } from "@mui/icons-material";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -22,8 +21,6 @@ const NavbarItem = ({
   const getClassName = (pathArg: string) => {
     const linkClassName =
       "flex w-full items-center gap-2 rounded-md p-2 text-lg font-bold hover:bg-bgHover";
-    console.log("check path split >> ", path.split("/"));
-    console.log("check path arg >> ", pathArg.split("/")[1]);
 
     if (
       (path == "/" && pathArg == "/") ||
@@ -51,11 +48,6 @@ const Navbar = () => {
         content="Playlist"
       />
       <NavbarItem href="/song" icon={<Audiotrack />} content="Song" />
-      <NavbarItem
-        href="/setting"
-        icon={<SettingsRounded />}
-        content="Setting"
-      />
     </div>
   );
 };
