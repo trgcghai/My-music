@@ -13,7 +13,7 @@ const CustomModal = ({
   setOpen: Dispatch<SetStateAction<boolean>>;
   title: string;
   handleCancel?: () => void;
-  handleConfirm: () => void;
+  handleConfirm?: () => void;
   children: ReactNode;
 }) => {
   const [loading, setLoading] = useState(false);

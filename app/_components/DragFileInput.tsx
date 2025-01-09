@@ -4,17 +4,6 @@ import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { useCounterStore } from "../_providers/counter-store-provider";
 
-// type DragFileInputProps = {
-//   path: string;
-//   relativePath: string;
-//   lastModified: number;
-//   lastModifiedDate: Date;
-//   name: string;
-//   size: number;
-//   type: string;
-//   webkitRelativePath: string;
-// };
-
 const DragFileInput = ({
   className = "",
 }: {
@@ -29,6 +18,7 @@ const DragFileInput = ({
 
       setFiles(acceptedFiles);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [JSON.stringify(setFiles)],
   );
 
