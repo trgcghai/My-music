@@ -6,7 +6,7 @@ const TableSongs = ({
   title = "",
   canSeeAll = true,
   songs = [],
-  numberDisplayed = 5,
+  numberDisplayed = 6,
 }: {
   title: string;
   canSeeAll?: boolean;

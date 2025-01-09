@@ -5,24 +5,23 @@ const CustomModal = ({
   open,
   setOpen,
   title,
+  handleCancel = () => setOpen(false),
+  handleConfirm = () => {},
   children,
 }: {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   title: string;
+  handleCancel?: () => void;
+  handleConfirm: () => void;
   children: ReactNode;
 }) => {
   const [loading, setLoading] = useState(false);
 
   const handleOk = () => {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setOpen(false);
-    }, 3000);
-  };
-
-  const handleCancel = () => {
+    handleConfirm();
+    setLoading(false);
     setOpen(false);
   };
 

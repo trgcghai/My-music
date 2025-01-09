@@ -2,39 +2,54 @@
 import { AddCircleOutline } from "@mui/icons-material";
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import { useCounterStore } from "../_providers/counter-store-provider";
+
+// type DragFileInputProps = {
+//   path: string;
+//   relativePath: string;
+//   lastModified: number;
+//   lastModifiedDate: Date;
+//   name: string;
+//   size: number;
+//   type: string;
+//   webkitRelativePath: string;
+// };
 
 const DragFileInput = ({
-  title = "",
   className = "",
 }: {
   title?: string;
   className: string;
 }) => {
-  const onDrop = useCallback((acceptedFiles: Array<File>) => {
-    console.log(acceptedFiles);
-  }, []);
+  const { files, setFiles } = useCounterStore((state) => state);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const onDrop = useCallback(
+    (acceptedFiles: Array<File>) => {
+      console.log(acceptedFiles);
 
-  if (!title) {
-    return (
-      <div {...getRootProps()}>
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <p>Drop the files here ...</p>
-        ) : (
-          <div className={className}>
-            <AddCircleOutline />
-            <p>Chose your files or Drag n drop it here</p>
-          </div>
-        )}
-      </div>
-    );
-  }
+      setFiles(acceptedFiles);
+    },
+    [JSON.stringify(setFiles)],
+  );
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      "audio/*": [
+        ".mp3",
+        ".wav",
+        ".flac",
+        ".mkv",
+        ".m4a",
+        ".aac",
+        ".ogg",
+        ".flac",
+      ],
+    },
+  });
 
   return (
-    <div className="mb-2 flex items-center gap-4 p-2">
-      {title && <p className="mb-2 w-[200px] text-xl font-bold">{title}</p>}
+    <>
       <div {...getRootProps()}>
         <input {...getInputProps()} />
         {isDragActive ? (
@@ -46,9 +61,23 @@ const DragFileInput = ({
           </div>
         )}
       </div>
-    </div>
+      <div>
+        <p className="mt-2 text-lg text-textColor">
+          Total songs: {files?.length}
+        </p>
+        <div className="no-scrollbar my-3 max-h-80 space-y-2 overflow-scroll">
+          {files &&
+            files.map((file) => (
+              <p
+                className="cursor-default rounded-md bg-bgLightColor px-2 py-1 text-textColor"
+                key={file.name}
+              >
+                {file.name}
+              </p>
+            ))}
+        </div>
+      </div>
+    </>
   );
 };
 export default DragFileInput;
-
-// text-md flex w-[500px] cursor-pointer items-center justify-center gap-2 rounded-md border-0 bg-main p-3 text-lg font-bold text-white hover:bg-bgHover

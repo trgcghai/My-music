@@ -5,6 +5,7 @@ import Navbar from "./_components/Navbar";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import PlayingController from "./_components/PlayingController/PlayingController";
 import "@ant-design/v5-patch-for-react-19";
+import { CounterStoreProvider } from "./_providers/counter-store-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,7 +37,7 @@ export default function RootLayout({
             <Navbar />
 
             <div className="flex-[5] bg-bgColor px-16 py-8 text-textColor">
-              {children}
+              <CounterStoreProvider>{children}</CounterStoreProvider>
             </div>
 
             <div className="fixed bottom-0 left-0 right-0 z-50">

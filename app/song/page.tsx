@@ -5,12 +5,28 @@ import { useState } from "react";
 import DragFileInput from "../_components/DragFileInput";
 import CustomModal from "../_components/CustomModal";
 import TableSongs from "../_components/TableSongs";
+import { useCounterStore } from "../_providers/counter-store-provider";
 
 const Song = () => {
   const [open, setOpen] = useState(false);
+  const { files, setFiles } = useCounterStore((state) => state);
 
   const showModal = () => {
     setOpen(true);
+  };
+
+  const handleCancelModal = () => {
+    setFiles([]);
+    setOpen(false);
+  };
+
+  const handleConfirm = () => {
+    if (!files) return;
+    if (files?.length == 0) return;
+
+    // call api upload files
+    console.log("fetching api");
+    setFiles([]);
   };
 
   return (
@@ -35,7 +51,13 @@ const Song = () => {
         />
       </div>
 
-      <CustomModal open={open} setOpen={setOpen} title="Upload your songs">
+      <CustomModal
+        open={open}
+        handleConfirm={handleConfirm}
+        handleCancel={handleCancelModal}
+        setOpen={setOpen}
+        title="Upload your songs"
+      >
         <DragFileInput className="text-md flex h-[100px] cursor-pointer items-center justify-center gap-2 rounded-md border-0 bg-gray-800 p-3 text-lg text-white hover:bg-bgHover" />
       </CustomModal>
     </>
