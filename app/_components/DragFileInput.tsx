@@ -13,22 +13,26 @@ const DragFileInput = ({
 }) => {
   const { files, setFiles } = useCounterStore((state) => state);
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    const mappedFiles = acceptedFiles.map((file: File) => {
-      console.log(file);
-      return {
-        name: file.name,
-        path: "./" + file.name,
-        relativePath: "./" + file.name,
-        lastModifiedDate: new Date(file.lastModified).toISOString(),
-        lastModified: file.lastModified,
-        size: file.size,
-        type: file.type,
-        webkitRelativePath: file.webkitRelativePath,
-      };
-    }) as unknown as FileProps[];
-    setFiles(mappedFiles);
-  }, []);
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      const mappedFiles = acceptedFiles.map((file: File) => {
+        console.log(file);
+        return {
+          name: file.name,
+          path: "./" + file.name,
+          relativePath: "./" + file.name,
+          lastModifiedDate: new Date(file.lastModified).toISOString(),
+          lastModified: file.lastModified,
+          size: file.size,
+          type: file.type,
+          webkitRelativePath: file.webkitRelativePath,
+        };
+      }) as unknown as FileProps[];
+      setFiles(mappedFiles);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [JSON.stringify(setFiles)],
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
