@@ -20,12 +20,20 @@ const Song = () => {
     setOpen(false);
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (!files) return;
     if (files?.length == 0) return;
 
-    // call api upload files
-    console.log("fetching api");
+    const result = await fetch("http://localhost:8080/v1/song/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(files),
+    });
+    const data = await result.json();
+    console.log(data);
+
     setFiles([]);
   };
 

@@ -1,13 +1,12 @@
-// src/stores/counter-store.ts
-// import { File } from "buffer";
 import { createStore } from "zustand/vanilla";
+import { FileProps } from "../define";
 
 export type CounterState = {
-  files: File[] | null;
+  files: FileProps[] | null;
 };
 
 export type CounterActions = {
-  setFiles: (files: File[]) => void;
+  setFiles: (files: FileProps[]) => void;
 };
 
 export type CounterStore = CounterState & CounterActions;
@@ -25,6 +24,6 @@ export const createCounterStore = (
 ) => {
   return createStore<CounterStore>()((set) => ({
     ...initState,
-    setFiles: (files: File[]) => set(() => ({ files: files })),
+    setFiles: (files: FileProps[]) => set(() => ({ files: files })),
   }));
 };
