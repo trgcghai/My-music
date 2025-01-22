@@ -5,26 +5,28 @@ import { useState } from "react";
 import DragFileInput from "../_components/DragFileInput";
 import CustomModal from "../_components/CustomModal";
 import TableSongs from "../_components/TableSongs";
-import { useCounterStore } from "../_providers/counter-store-provider";
+import { useAppDispatch, useAppSelector } from "../_libs/hooks";
+import { setFiles } from "../_libs/features/file/fileSlice";
 
 const Song = () => {
   const [open, setOpen] = useState(false);
-  const { files, setFiles } = useCounterStore((state) => state);
+  const { files } = useAppSelector((state) => state.file);
+  const dispatch = useAppDispatch();
+
+  console.log(files);
 
   const showModal = () => {
     setOpen(true);
   };
 
   const handleCancelModal = () => {
-    setFiles([]);
+    dispatch(setFiles([]));
     setOpen(false);
   };
 
   const handleConfirm = async () => {
     if (!files) return;
     if (files?.length == 0) return;
-
-    console.log(files);
 
     const result = await fetch(process.env.NEXT_PUBLIC_API_URL + "/song", {
       method: "POST",
@@ -38,7 +40,7 @@ const Song = () => {
     const data = await result.json();
     console.log(data);
 
-    setFiles([]);
+    dispatch(setFiles([]));
   };
 
   return (

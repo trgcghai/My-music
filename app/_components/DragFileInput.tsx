@@ -2,8 +2,9 @@
 import { AddCircleOutline } from "@mui/icons-material";
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { useCounterStore } from "../_providers/counter-store-provider";
 import { FileProps } from "../define";
+import { useAppDispatch, useAppSelector } from "../_libs/hooks";
+import { setFiles } from "../_libs/features/file/fileSlice";
 
 const DragFileInput = ({
   className = "",
@@ -11,7 +12,8 @@ const DragFileInput = ({
   title?: string;
   className: string;
 }) => {
-  const { files, setFiles } = useCounterStore((state) => state);
+  const { files } = useAppSelector((state) => state.file);
+  const dispatch = useAppDispatch();
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -27,7 +29,7 @@ const DragFileInput = ({
           webkitRelativePath: file.webkitRelativePath,
         };
       }) as unknown as FileProps[];
-      setFiles(mappedFiles);
+      dispatch(setFiles(mappedFiles));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [JSON.stringify(setFiles)],
