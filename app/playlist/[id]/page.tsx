@@ -2,10 +2,24 @@
 import TableSongs from "@/app/_components/TableSongs";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import { useEffect } from "react";
 
 const Page = () => {
   const { id } = useParams();
-  console.log(id);
+
+  useEffect(() => {
+    const fetchPlaylist = async () => {
+      const result = await fetch(
+        process.env.NEXT_PUBLIC_API_URL + "/playlist/" + id,
+        {
+          method: "GET",
+        },
+      );
+      const data = await result.json();
+      console.log(">> check fetch playlist", data);
+    };
+    fetchPlaylist();
+  }, [id]);
 
   return (
     <div>

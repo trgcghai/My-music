@@ -24,12 +24,16 @@ const Song = () => {
     if (!files) return;
     if (files?.length == 0) return;
 
-    const result = await fetch("http://localhost:8080/v1/song/", {
+    console.log(files);
+
+    const result = await fetch(process.env.NEXT_PUBLIC_API_URL + "/song", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(files),
+      body: JSON.stringify({
+        songs: files,
+      }),
     });
     const data = await result.json();
     console.log(data);

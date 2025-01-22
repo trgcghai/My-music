@@ -16,7 +16,6 @@ const DragFileInput = ({
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       const mappedFiles = acceptedFiles.map((file: File) => {
-        console.log(file);
         return {
           name: file.name,
           path: "./" + file.name,

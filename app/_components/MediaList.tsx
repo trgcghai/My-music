@@ -1,7 +1,11 @@
 import Link from "next/link";
 import PlaylistCard from "./PlaylistCard";
 
-const MediaList = () => {
+const MediaList = ({
+  playlist = [1, 1, 1, 1, 1, 1],
+}: {
+  playlist?: number[];
+}) => {
   return (
     <>
       <div className="flex items-end justify-between px-2">
@@ -11,7 +15,7 @@ const MediaList = () => {
         </Link>
       </div>
       <div className="mt-2 flex items-center justify-between p-2">
-        {[1, 1, 1, 1, 1, 1].map((_, index) => {
+        {playlist.map((_, index) => {
           return <PlaylistCard key={index} id={index} />;
         })}
       </div>
