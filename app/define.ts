@@ -1,3 +1,6 @@
+import { ButtonProps, ModalProps } from "antd";
+import { LegacyButtonType } from "antd/es/button/button";
+
 export interface Song {
   key: string;
   name: string;
@@ -84,4 +87,19 @@ export interface PlaylistResponse {
   code: number;
   result: Playlist[];
   status: string;
+}
+
+export enum ModalType {
+  DEFAULT = "DEFAULT",
+  UPLOAD_SONG = "UPLOAD_SONG",
+  CREATE_PLAYLIST = "CREATE_PLAYLIST",
+}
+
+export interface DynamicModalProps extends ModalProps {
+  closable: boolean;
+  okText: string;
+  okType: LegacyButtonType | undefined;
+  okButtonProps: ButtonProps;
+  cancelText: string;
+  cancelButtonProps: ButtonProps;
 }

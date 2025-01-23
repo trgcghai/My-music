@@ -12,14 +12,17 @@ import {
 import storage from "redux-persist/lib/storage";
 import { fileSlice } from "./features/file/fileSlice";
 import { rootApi } from "../_services/rootApi";
+import { modalSlice } from "./features/modal/modalSlice";
 
 const persistConfig = {
   key: "persist",
   storage,
+  blacklist: [rootApi.reducerPath, "modal.handleConfirm", "modal.handleCancel"],
 };
 
 const rootReducer = combineReducers({
   file: fileSlice.reducer,
+  modal: modalSlice.reducer,
   [rootApi.reducerPath]: rootApi.reducer,
 });
 
@@ -30,6 +33,7 @@ const makeConfiguredStore = () => {
       getDefaultMiddleware({
         serializableCheck: {
           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+          ignorePaths: ["modal.handleConfirm", "modal.handleCancel"],
         },
       }).concat(rootApi.middleware),
   });

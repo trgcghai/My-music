@@ -1,39 +1,20 @@
 "use client";
 import { AddCircleOutline } from "@mui/icons-material";
-import { Button, Input } from "antd";
-import { useState } from "react";
-import CustomModal from "../_components/CustomModal";
+import { Button } from "antd";
 import PlaylistCard from "../_components/PlaylistCard";
-import {
-  useCreatePlaylistMutation,
-  useGetPlaylistQuery,
-} from "../_services/rootApi";
+import { useGetPlaylistQuery } from "../_services/rootApi";
 import Loading from "../_components/Loading";
+import { useAppDispatch } from "../_libs/hooks";
+import { openModal } from "../_libs/features/modal/modalSlice";
+import { ModalType } from "../define";
 
 const Playlist = () => {
-  const [open, setOpen] = useState(false);
-  const [playlist, setPlaylist] = useState("");
   const {
     data,
     isLoading: getLoading,
     isFetching: getFetching,
   } = useGetPlaylistQuery();
-  const [createPlaylist] = useCreatePlaylistMutation();
-
-  const showModal = () => {
-    setOpen(true);
-  };
-
-  const handleCancelModal = () => {
-    setPlaylist("");
-    setOpen(false);
-  };
-
-  const handleConfirm = async () => {
-    if (!playlist) return;
-    await createPlaylist(playlist).unwrap();
-    setPlaylist("");
-  };
+  const dispatch = useAppDispatch();
 
   return (
     <>
@@ -42,7 +23,14 @@ const Playlist = () => {
         <Button
           variant="filled"
           className="!flex !items-center !gap-4 !border-0 !bg-main !px-4 !py-5 !text-lg !font-bold !text-white"
-          onClick={showModal}
+          onClick={() => {
+            dispatch(
+              openModal({
+                type: ModalType.CREATE_PLAYLIST,
+                title: "Create new playlist",
+              }),
+            );
+          }}
         >
           <AddCircleOutline />
           Create new
@@ -64,20 +52,6 @@ const Playlist = () => {
           })}
         </div>
       )}
-
-      <CustomModal
-        open={open}
-        handleConfirm={handleConfirm}
-        handleCancel={handleCancelModal}
-        title="Create new playlist"
-      >
-        <p className="mb-1 text-lg text-textColor">Name your playlist</p>
-        <Input
-          className="!h-[40px] !rounded-lg !bg-bgLightColor !text-lg !text-textColor hover:border-main"
-          value={playlist}
-          onChange={(e) => setPlaylist(e.target.value)}
-        />
-      </CustomModal>
     </>
   );
 };
