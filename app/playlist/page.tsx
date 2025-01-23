@@ -1,12 +1,12 @@
 "use client";
+import Loading from "@components/Loading";
+import PlaylistCard from "@components/PlaylistCard";
+import { openModal } from "@libs/features/modal/modalSlice";
+import { useAppDispatch } from "@libs/hooks";
 import { AddCircleOutline } from "@mui/icons-material";
+import { useGetPlaylistQuery } from "@services/rootApi";
 import { Button } from "antd";
-import PlaylistCard from "../_components/PlaylistCard";
-import { useGetPlaylistQuery } from "../_services/rootApi";
-import Loading from "../_components/Loading";
-import { useAppDispatch } from "../_libs/hooks";
-import { openModal } from "../_libs/features/modal/modalSlice";
-import { ModalType } from "../define";
+import { ModalType } from "define";
 
 const Playlist = () => {
   const {

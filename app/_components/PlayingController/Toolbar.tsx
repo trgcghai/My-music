@@ -1,3 +1,4 @@
+import { ToggleIcon } from "@components/ToggleIcon";
 import {
   PlayArrow,
   Replay,
@@ -5,7 +6,6 @@ import {
   SkipNext,
   SkipPrevious,
 } from "@mui/icons-material";
-import { ToggleIcon } from "../ToggleIcon";
 import { Progress } from "antd";
 
 const Toolbar = () => {

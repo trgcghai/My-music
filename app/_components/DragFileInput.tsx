@@ -1,10 +1,10 @@
 "use client";
+import { setFiles } from "@libs/features/file/fileSlice";
+import { useAppDispatch, useAppSelector } from "@libs/hooks";
 import { AddCircleOutline } from "@mui/icons-material";
+import { FileProps } from "define";
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { FileProps } from "../define";
-import { useAppDispatch, useAppSelector } from "../_libs/hooks";
-import { setFiles } from "../_libs/features/file/fileSlice";
 
 const DragFileInput = ({
   className = "",

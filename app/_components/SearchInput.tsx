@@ -1,7 +1,7 @@
 "use client";
+import { useLazyGetSongByNameQuery } from "@services/rootApi";
 import { Input } from "antd";
 import { FormEvent, useEffect, useState } from "react";
-import { useLazyGetSongByNameQuery } from "../_services/rootApi";
 
 const SearchInput = () => {
   const [search, setSearch] = useState("");

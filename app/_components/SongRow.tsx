@@ -1,4 +1,4 @@
-import { formatSongLength } from "../_utils/formatSongLength";
+import { formatSongLength } from "@utils/formatSongLength";
 
 const SongRow = ({
   title,

@@ -1,6 +1,6 @@
+import { SongInPlaylist, SongMetadata } from "define";
 import Link from "next/link";
 import SongRow from "./SongRow";
-import { SongInPlaylist, SongMetadata } from "../define";
 
 const TableSongs = <T extends SongMetadata | SongInPlaylist>({
   title = "",

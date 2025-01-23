@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { FileProps, PlaylistResponse, SongResponse } from "../define";
+import { FileProps, PlaylistResponse, SongResponse } from "define";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_URL,

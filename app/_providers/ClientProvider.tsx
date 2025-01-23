@@ -1,8 +1,8 @@
 "use client";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import Navbar from "../_components/Navbar";
-import PlayingController from "../_components/PlayingController/PlayingController";
-import CustomModal from "../_components/Modal/CustomModal";
+import CustomModal from "@components/Modal/CustomModal";
+import Navbar from "@components/Navbar";
+import PlayingController from "@components/PlayingController/PlayingController";
 
 const ClientProvider = ({
   children,

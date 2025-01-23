@@ -1,4 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { rootApi } from "@services/rootApi";
 import {
   persistStore,
   persistReducer,
@@ -11,7 +12,6 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { fileSlice } from "./features/file/fileSlice";
-import { rootApi } from "../_services/rootApi";
 import { modalSlice } from "./features/modal/modalSlice";
 
 const persistConfig = {
@@ -44,7 +44,10 @@ export const makeStore = () => {
   if (isServer) {
     return makeConfiguredStore();
   } else {
-    const persistedReducer = persistReducer(persistConfig, rootReducer);
+    const persistedReducer = persistReducer<RootState>(
+      persistConfig,
+      rootReducer,
+    );
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const store: any = configureStore({
       reducer: persistedReducer,
@@ -52,6 +55,7 @@ export const makeStore = () => {
         getDefaultMiddleware({
           serializableCheck: {
             ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+            ignorePaths: ["modal.handleConfirm", "modal.handleCancel"],
           },
         }).concat(rootApi.middleware),
     });

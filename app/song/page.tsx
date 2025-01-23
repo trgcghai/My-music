@@ -1,12 +1,12 @@
 "use client";
+import Loading from "@components/Loading";
+import TableSongs from "@components/TableSongs";
+import { openModal } from "@libs/features/modal/modalSlice";
+import { useAppDispatch } from "@libs/hooks";
 import { AddCircleOutline } from "@mui/icons-material";
+import { useGetSongQuery } from "@services/rootApi";
 import { Button } from "antd";
-import TableSongs from "../_components/TableSongs";
-import { useAppDispatch } from "../_libs/hooks";
-import { useGetSongQuery } from "../_services/rootApi";
-import Loading from "../_components/Loading";
-import { openModal } from "../_libs/features/modal/modalSlice";
-import { ModalType } from "../define";
+import { ModalType } from "define";
 
 const Song = () => {
   const dispatch = useAppDispatch();

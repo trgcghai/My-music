@@ -1,8 +1,8 @@
-import { closeModal } from "@/app/_libs/features/modal/modalSlice";
-import { useAppDispatch, useAppSelector } from "@/app/_libs/hooks";
-import { useCreatePlaylistMutation } from "@/app/_services/rootApi";
-import { DynamicModalProps } from "@/app/define";
+import { closeModal } from "@libs/features/modal/modalSlice";
+import { useAppDispatch, useAppSelector } from "@libs/hooks";
+import { useCreatePlaylistMutation } from "@services/rootApi";
 import { Input, Modal } from "antd";
+import { DynamicModalProps } from "define";
 import { useState } from "react";
 
 const CreatePlaylistModal = (props: DynamicModalProps) => {

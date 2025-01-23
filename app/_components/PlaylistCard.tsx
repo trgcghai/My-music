@@ -1,8 +1,6 @@
 import Link from "next/link";
 import ImageLoader from "./ImageLoader";
 
-//"https://placehold.co/200x200"
-
 const PlaylistCard = ({ id, thumbnail, title }: PlaylistCardProps) => {
   return (
     <Link href={"/playlist/" + id}>

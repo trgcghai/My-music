@@ -1,8 +1,8 @@
-import { ButtonProps, ConfigProvider } from "antd";
-import { useAppSelector } from "../../_libs/hooks";
+import { ButtonProps, LegacyButtonType } from "antd/es/button/button";
 import UploadSongModal from "./UploadSongModal";
-import { LegacyButtonType } from "antd/es/button/button";
 import CreatePlaylistModal from "./CreatePlaylistModal";
+import { useAppSelector } from "@libs/hooks";
+import { ConfigProvider } from "antd";
 
 const DynamicModal = ({ type, ...props }: ModalProps) => {
   switch (type) {

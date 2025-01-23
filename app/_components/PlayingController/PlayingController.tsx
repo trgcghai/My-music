@@ -1,5 +1,6 @@
 "use client";
-import VolumeSlider from "../VolumeSlider";
+
+import VolumeSlider from "@components/VolumeSlider";
 import SongInfoCard from "./SongInfoCard";
 import Toolbar from "./Toolbar";
 

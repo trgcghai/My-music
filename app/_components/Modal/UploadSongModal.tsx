@@ -1,10 +1,10 @@
-import { useAppDispatch, useAppSelector } from "@/app/_libs/hooks";
-import DragFileInput from "../DragFileInput";
-import { setFiles } from "@/app/_libs/features/file/fileSlice";
-import { closeModal } from "@/app/_libs/features/modal/modalSlice";
-import { useUploadFilesMutation } from "@/app/_services/rootApi";
+import DragFileInput from "@components/DragFileInput";
+import { setFiles } from "@libs/features/file/fileSlice";
+import { closeModal } from "@libs/features/modal/modalSlice";
+import { useAppDispatch, useAppSelector } from "@libs/hooks";
+import { useUploadFilesMutation } from "@services/rootApi";
 import { Modal } from "antd";
-import { DynamicModalProps } from "@/app/define";
+import { DynamicModalProps } from "define";
 
 const UploadSongModal = (props: DynamicModalProps) => {
   const dispatch = useAppDispatch();

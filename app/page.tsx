@@ -1,9 +1,9 @@
 "use client";
-import SearchInput from "./_components/SearchInput";
-import TableSongs from "./_components/TableSongs";
-import MediaList from "./_components/MediaList";
-import { useGetPlaylistQuery, useGetSongQuery } from "./_services/rootApi";
-import Loading from "./_components/Loading";
+import Loading from "@components/Loading";
+import MediaList from "@components/MediaList";
+import SearchInput from "@components/SearchInput";
+import TableSongs from "@components/TableSongs";
+import { useGetPlaylistQuery, useGetSongQuery } from "@services/rootApi";
 import Link from "next/link";
 
 export default function Home() {

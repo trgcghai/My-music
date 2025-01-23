@@ -1,8 +1,8 @@
 "use client";
-import ImageLoader from "@/app/_components/ImageLoader";
-import Loading from "@/app/_components/Loading";
-import TableSongs from "@/app/_components/TableSongs";
-import { useGetPlaylistByIdQuery } from "@/app/_services/rootApi";
+import ImageLoader from "@components/ImageLoader";
+import Loading from "@components/Loading";
+import TableSongs from "@components/TableSongs";
+import { useGetPlaylistByIdQuery } from "@services/rootApi";
 import { useParams } from "next/navigation";
 
 const Page = () => {

@@ -1,4 +1,4 @@
-import ImageLoader from "../ImageLoader";
+import ImageLoader from "@components/ImageLoader";
 
 const SongInfoCard = ({
   name = "",
