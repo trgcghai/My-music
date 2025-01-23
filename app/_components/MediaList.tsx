@@ -1,11 +1,8 @@
 import Link from "next/link";
 import PlaylistCard from "./PlaylistCard";
+import { Playlist } from "../define";
 
-const MediaList = ({
-  playlist = [1, 1, 1, 1, 1, 1],
-}: {
-  playlist?: number[];
-}) => {
+const MediaList = <T extends Playlist>({ playlist }: MediaListProps<T>) => {
   return (
     <>
       <div className="flex items-end justify-between px-2">
@@ -14,12 +11,23 @@ const MediaList = ({
           See all
         </Link>
       </div>
-      <div className="mt-2 flex items-center justify-between p-2">
-        {playlist.map((_, index) => {
-          return <PlaylistCard key={index} id={index} />;
+      <div className="mt-2 flex items-center gap-6 p-2">
+        {playlist.map((playlist) => {
+          return (
+            <PlaylistCard
+              key={playlist._id}
+              id={playlist._id}
+              thumbnail={playlist.thumbnail}
+              title={playlist.name}
+            />
+          );
         })}
       </div>
     </>
   );
 };
 export default MediaList;
+
+interface MediaListProps<T> {
+  playlist: T[];
+}

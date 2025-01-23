@@ -1,29 +1,25 @@
 "use client";
 import { Input } from "antd";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { useLazyGetSongByNameQuery } from "../_services/rootApi";
 
 const SearchInput = () => {
   const [search, setSearch] = useState("");
+  const [searchSongByName, { data }] = useLazyGetSongByNameQuery();
 
-  const fetchSongQuery = async () => {
-    const queryParam = new URLSearchParams({
-      name: search,
-    }).toString();
-    const result = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/song?${queryParam}`,
-      {
-        method: "GET",
-      },
-    );
-    const data = await result.json();
-    console.log(data);
-  };
+  useEffect(() => {
+    if (data && data.code == 200 && data.status == "success") {
+      localStorage.setItem("searchResult", JSON.stringify(data.result));
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+      // navigate to search result page which is not implemented yet
+    }
+  }, [data]);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!search) return;
-    fetchSongQuery();
+    searchSongByName(search);
 
     setSearch("");
   };

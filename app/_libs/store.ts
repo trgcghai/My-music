@@ -11,6 +11,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { fileSlice } from "./features/file/fileSlice";
+import { rootApi } from "../_services/rootApi";
 
 const persistConfig = {
   key: "persist",
@@ -19,6 +20,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   file: fileSlice.reducer,
+  [rootApi.reducerPath]: rootApi.reducer,
 });
 
 const makeConfiguredStore = () => {
@@ -29,7 +31,7 @@ const makeConfiguredStore = () => {
         serializableCheck: {
           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
         },
-      }),
+      }).concat(rootApi.middleware),
   });
 };
 
@@ -47,7 +49,7 @@ export const makeStore = () => {
           serializableCheck: {
             ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
           },
-        }),
+        }).concat(rootApi.middleware),
     });
     store.__persistor = persistStore(store);
     return store;

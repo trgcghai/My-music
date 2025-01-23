@@ -1,18 +1,12 @@
 import Link from "next/link";
 import SongRow from "./SongRow";
-import { Song } from "../define";
+import { SongInPlaylist, SongMetadata } from "../define";
 
-const TableSongs = ({
+const TableSongs = <T extends SongMetadata | SongInPlaylist>({
   title = "",
   canSeeAll = true,
   songs = [],
-  numberDisplayed = 6,
-}: {
-  title: string;
-  canSeeAll?: boolean;
-  songs: Song[];
-  numberDisplayed?: number;
-}) => {
+}: TableSongsProps<T>) => {
   return (
     <>
       <div
@@ -27,17 +21,35 @@ const TableSongs = ({
       </div>
       <div className="mt-2 space-y-4">
         {songs &&
-          songs.map((song, index) => {
-            return <SongRow key={index} />;
+          songs.map((song: SongMetadata | SongInPlaylist) => {
+            if ("common" in song) {
+              return (
+                <SongRow
+                  key={song._id}
+                  title={song.common.title}
+                  artist={song.common.artist}
+                  length={song.format.duration}
+                />
+              );
+            } else {
+              return (
+                <SongRow
+                  key={song._id}
+                  title={song.title}
+                  artist={song.artist}
+                  length={song.duration}
+                />
+              );
+            }
           })}
-
-        {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-          .slice(0, numberDisplayed)
-          .map((_, index) => (
-            <SongRow key={index} />
-          ))}
       </div>
     </>
   );
 };
 export default TableSongs;
+
+interface TableSongsProps<T> {
+  title: string;
+  canSeeAll?: boolean;
+  songs: T[];
+}

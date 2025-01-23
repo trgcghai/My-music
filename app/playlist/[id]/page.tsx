@@ -1,45 +1,46 @@
 "use client";
+import ImageLoader from "@/app/_components/ImageLoader";
+import Loading from "@/app/_components/Loading";
 import TableSongs from "@/app/_components/TableSongs";
-import Image from "next/image";
+import { useGetPlaylistByIdQuery } from "@/app/_services/rootApi";
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
 
 const Page = () => {
   const { id } = useParams();
+  const { data, isLoading, isFetching } = useGetPlaylistByIdQuery(
+    typeof id === "string" ? id : "",
+  );
 
-  useEffect(() => {
-    const fetchPlaylist = async () => {
-      const result = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/playlist/" + id,
-        {
-          method: "GET",
-        },
-      );
-      const data = await result.json();
-      console.log(">> check fetch playlist", data);
-    };
-    fetchPlaylist();
-  }, [id]);
+  if (isLoading || isFetching) return <Loading />;
 
   return (
     <div>
       <div className="flex items-center gap-4">
-        <Image
-          src={"https://placehold.co/250"}
+        <ImageLoader
+          src={data?.result[0].thumbnail || ""}
           height={250}
           width={250}
           alt=""
+          className="rounded-lg"
         />
         <div className="space-y-6">
-          <p className="text-6xl font-bold text-textColor">Playlist Name</p>
+          <p className="text-6xl font-bold text-textColor">
+            {data?.result[0].name}
+          </p>
           <div>
-            <p className="text-lg">Number of songs: 30</p>
+            <p className="text-lg">
+              Number of songs: {data?.result[0].songs.length}
+            </p>
             <p className="text-lg">Total length: 1h30</p>
           </div>
         </div>
       </div>
       <div className="mt-4">
-        <TableSongs songs={[]} title="Songs" canSeeAll={false} />
+        <TableSongs
+          songs={data?.result[0].songs || []}
+          title="Songs"
+          canSeeAll={false}
+        />
       </div>
     </div>
   );

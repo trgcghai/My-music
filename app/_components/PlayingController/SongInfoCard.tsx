@@ -1,4 +1,4 @@
-import Image from "next/image";
+import ImageLoader from "../ImageLoader";
 
 const SongInfoCard = ({
   name = "",
@@ -9,7 +9,7 @@ const SongInfoCard = ({
 }) => {
   return (
     <>
-      <Image
+      <ImageLoader
         src="https://placehold.co/60x60"
         width={60}
         height={60}

@@ -1,17 +1,17 @@
 import { Button, ConfigProvider, Modal } from "antd";
-import { Dispatch, ReactNode, SetStateAction, useState } from "react";
+import { ReactNode, useState } from "react";
 
 const CustomModal = ({
   open,
-  setOpen,
   title,
-  handleCancel = () => setOpen(false),
+  setOpen = () => {},
+  handleCancel = () => {},
   handleConfirm = () => {},
   children,
 }: {
   open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
   title: string;
+  setOpen?: (value: boolean) => void;
   handleCancel?: () => void;
   handleConfirm?: () => void;
   children: ReactNode;
