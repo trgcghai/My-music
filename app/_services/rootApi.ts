@@ -1,5 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { FileProps, PlaylistResponse, SongResponse } from "define";
+import {
+  AuthResponse,
+  PlaylistResponse,
+  RegisterResponse,
+  SongResponse,
+} from "_types/api";
+import { LoginFormData, RegisterFormData } from "_types/component";
+import { FileProps } from "_types/entity";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_URL,
@@ -18,6 +25,42 @@ export const rootApi = createApi({
   tagTypes: ["Song", "Playlist"],
   endpoints: (builder) => {
     return {
+      register: builder.mutation<RegisterResponse, RegisterFormData>({
+        query: (formData: RegisterFormData) => {
+          return {
+            url: "/auth/register",
+            method: "POST",
+            body: {
+              formData,
+            },
+          };
+        },
+      }),
+      login: builder.mutation<AuthResponse, LoginFormData>({
+        query: (formData: LoginFormData) => {
+          return {
+            url: "/auth/login",
+            method: "POST",
+            body: {
+              formData,
+            },
+          };
+        },
+      }),
+      verifyOtp: builder.mutation<AuthResponse, { email: string; otp: string }>(
+        {
+          query: ({ email, otp }) => {
+            return {
+              url: "/auth/verify-otp",
+              method: "POST",
+              body: {
+                email,
+                otp,
+              },
+            };
+          },
+        },
+      ),
       getSong: builder.query<SongResponse, void>({
         query: () => "/song",
         providesTags: [{ type: "Song" }],
@@ -65,6 +108,9 @@ export const rootApi = createApi({
 });
 
 export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useVerifyOtpMutation,
   useGetSongQuery,
   useLazyGetSongByNameQuery,
   useGetPlaylistQuery,

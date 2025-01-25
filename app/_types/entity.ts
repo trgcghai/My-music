@@ -1,14 +1,3 @@
-import { ButtonProps, ModalProps } from "antd";
-import { LegacyButtonType } from "antd/es/button/button";
-
-export interface Song {
-  key: string;
-  name: string;
-  author: string;
-  isFavorite: boolean;
-  length: number;
-}
-
 export interface FileProps {
   path: string;
   relativePath: string;
@@ -18,6 +7,14 @@ export interface FileProps {
   size: number;
   type: string;
   webkitRelativePath: string;
+}
+
+export interface Song {
+  key: string;
+  name: string;
+  author: string;
+  isFavorite: boolean;
+  length: number;
 }
 
 export interface SongMetadata {
@@ -75,31 +72,4 @@ export interface SongInPlaylist {
     audio: string;
     thumbnail: string;
   };
-}
-
-export interface SongResponse {
-  code: number;
-  result: SongMetadata[];
-  status: string;
-}
-
-export interface PlaylistResponse {
-  code: number;
-  result: Playlist[];
-  status: string;
-}
-
-export enum ModalType {
-  DEFAULT = "DEFAULT",
-  UPLOAD_SONG = "UPLOAD_SONG",
-  CREATE_PLAYLIST = "CREATE_PLAYLIST",
-}
-
-export interface DynamicModalProps extends ModalProps {
-  closable: boolean;
-  okText: string;
-  okType: LegacyButtonType | undefined;
-  okButtonProps: ButtonProps;
-  cancelText: string;
-  cancelButtonProps: ButtonProps;
 }

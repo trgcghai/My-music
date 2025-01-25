@@ -1,29 +1,35 @@
 import { Button } from "antd";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import GoogleIcon from "@mui/icons-material/Google";
-import { useState } from "react";
 import Link from "next/link";
 import FormSection from "./FormSection";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { LoginFormData } from "_types/component";
+import { useLoginMutation } from "@services/rootApi";
+import { useRouter } from "next/navigation";
+
+const message: string =
+  "Password must have at least 1 lowercase character, 1 uppercase character, 1 numeric character, and 1 special character.";
 
 const formSchema = yup.object().shape({
-  email: yup
+  email: yup.string().email("Email is not valid").required("Email is required"),
+  password: yup
     .string()
-    .matches(
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-      "Email is not valid",
-    )
-    .required("Email is required"),
-  password: yup.string().required("Password is required"),
+    .min(8, "Password must be at least 8 characters")
+    .matches(/[a-z]/, message)
+    .matches(/[A-Z]/, message)
+    .matches(/\d/, message)
+    .matches(/[@$!%*?&]/, message)
+    .required("Password is required"),
 });
 
 const LoginDialog = () => {
+  const router = useRouter();
   const {
     control,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(formSchema),
@@ -32,12 +38,29 @@ const LoginDialog = () => {
       password: "",
     },
   });
-  const [showPassword, setShowPassword] = useState(false);
+  const [login, { isLoading }] = useLoginMutation();
 
-  const onSubmit = (formData) => {
+  const onSubmit = async (formData: LoginFormData) => {
     // Login submit logic placeholder
-    console.log(formData);
-    console.log("submit form");
+    const { data, error } = await login(formData);
+
+    if (error) {
+      console.log(error);
+      setError("email", {
+        type: "manual",
+        message: "Invalid email or password",
+      });
+      setError("password", {
+        type: "manual",
+        message: "Invalid email or password",
+      });
+    }
+
+    if (data.code == 200 && data.status == "success") {
+      // give access token and refresh token
+      // redirect to home page
+      router.push("/");
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -65,18 +88,12 @@ const LoginDialog = () => {
           label="Password"
           control={control}
           error={errors["password"]}
-          inputType={showPassword ? "text" : "password"}
-          suffix={
-            showPassword ? (
-              <VisibilityIcon onClick={() => setShowPassword(false)} />
-            ) : (
-              <VisibilityOffIcon onClick={() => setShowPassword(true)} />
-            )
-          }
+          inputType="password"
         />
         <Button
           type="primary"
           block
+          loading={isLoading}
           htmlType="submit"
           className="mb-3 mt-6 text-lg"
         >

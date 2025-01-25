@@ -23,6 +23,10 @@
       }
     ],
     "baseUrl": "app/",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./_types"
+    ],
     "paths": {
       "@components/*": ["_components/*"],
       "@libs/*": ["_libs/*"],

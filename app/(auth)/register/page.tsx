@@ -37,12 +37,7 @@ const Page = () => {
     },
     {
       key: "otp",
-      content: (
-        <OtpDialog
-          setCurrentModal={setCurrentModal}
-          setDirection={setDirection}
-        />
-      ),
+      content: <OtpDialog />,
     },
   ];
 

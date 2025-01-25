@@ -1,6 +1,6 @@
 import { Input } from "antd";
-import { ReactNode } from "react";
 import { Control, Controller, FieldError } from "react-hook-form";
+import TextInput from "./Form/TextInput";
 
 const FormSection = ({
   name,
@@ -8,35 +8,45 @@ const FormSection = ({
   control,
   error,
   inputType = "text",
-  suffix = null,
 }: {
   name: string;
-  label: string;
+  label?: string;
   control: Control;
   error: FieldError;
-  inputType?: string;
-  suffix?: ReactNode;
+  inputType?: "text" | "password" | "otp";
 }) => {
   return (
     <div className="my-3">
-      <label className="text-lg text-textColor" htmlFor="">
-        {label}
-      </label>
+      {label && (
+        <label className="text-lg text-textColor" htmlFor="">
+          {label}
+        </label>
+      )}
       <Controller
         name={name}
         control={control}
         render={({ field: { onChange, value, name } }) => {
-          return (
-            <Input
-              value={value}
-              type={inputType}
-              onChange={onChange}
-              suffix={suffix}
-              name={name}
-              variant="outlined"
-              className={`!h-[40px] !rounded-lg !bg-bgLightColor !text-lg !text-textColor hover:border-main ${error?.message && "border-red-500"}`}
-            />
-          );
+          switch (inputType) {
+            case "text":
+              return (
+                <TextInput
+                  value={value}
+                  name={name}
+                  onChange={onChange}
+                  className={`!h-[40px] !rounded-lg !bg-bgLightColor !text-lg !text-textColor hover:border-main ${error?.message && "border-red-500"}`}
+                />
+              );
+            case "password":
+              return (
+                <Input.Password
+                  value={value}
+                  onChange={onChange}
+                  name={name}
+                  variant="outlined"
+                  className={`!h-[40px] !rounded-lg !bg-bgLightColor !text-lg !text-textColor hover:border-main ${error?.message && "border-red-500"}`}
+                />
+              );
+          }
         }}
       />
       {error && error?.message && (

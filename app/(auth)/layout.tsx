@@ -1,5 +1,7 @@
+import "@ant-design/v5-patch-for-react-19";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
+import StoreProvider from "@providers/StoreProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,9 +23,11 @@ const AuthLayout = ({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="w-100 no-scrollbar flex h-screen items-center justify-center bg-bgColor">
-          {children}
-        </div>
+        <StoreProvider>
+          <div className="w-100 no-scrollbar flex h-screen items-center justify-center bg-bgColor">
+            {children}
+          </div>
+        </StoreProvider>
       </body>
     </html>
   );

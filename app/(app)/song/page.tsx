@@ -5,8 +5,8 @@ import { openModal } from "@libs/features/modal/modalSlice";
 import { useAppDispatch } from "@libs/hooks";
 import { AddCircleOutline } from "@mui/icons-material";
 import { useGetSongQuery } from "@services/rootApi";
+import { ModalType } from "_types/component";
 import { Button } from "antd";
-import { ModalType } from "define";
 
 const Song = () => {
   const dispatch = useAppDispatch();

@@ -1,14 +1,30 @@
+import { useVerifyOtpMutation } from "@services/rootApi";
 import { Button, ConfigProvider, Input } from "antd";
+import { useRouter } from "next/navigation";
 
-const OtpDialog = ({ setCurrentModal, setDirection }) => {
-  const handleOnInput = (e: string[]) => {
-    console.log(e);
-  };
-  const handleOnChange = (e: string) => {
+const OtpDialog = () => {
+  const router = useRouter();
+  const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
+  const handleOnChange = async (e: string) => {
     console.log(e);
 
-    setCurrentModal(0);
-    setDirection(-1);
+    const email = JSON.parse(localStorage.getItem("email"));
+
+    const { data, error } = await verifyOtp({
+      email,
+      otp: e,
+    });
+
+    if (error) {
+      // handle wrong otp error
+      alert("Error: " + error);
+    }
+
+    if (data.code == 200 && data.status == "success") {
+      // handle success and redirect to home page
+
+      router.push("/");
+    }
   };
 
   return (
@@ -18,7 +34,7 @@ const OtpDialog = ({ setCurrentModal, setDirection }) => {
       </h2>
       <div className="mb-5 text-center text-textColor">
         Didn&apos;t get the OTP?
-        <span className="ml-1 text-main">Send again</span>
+        <span className="ml-1 cursor-pointer text-main">Send again</span>
       </div>
       <form action="">
         <ConfigProvider
@@ -30,15 +46,12 @@ const OtpDialog = ({ setCurrentModal, setDirection }) => {
             },
           }}
         >
-          <Input.OTP
-            size="large"
-            onInput={handleOnInput}
-            onChange={handleOnChange}
-          />
+          <Input.OTP size="large" onChange={handleOnChange} />
         </ConfigProvider>
         <Button
           type="primary"
           block
+          loading={isLoading}
           htmlType="submit"
           className="mb-3 mt-6 text-lg"
         >

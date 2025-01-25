@@ -1,30 +1,38 @@
 import { Button, Divider } from "antd";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import GoogleIcon from "@mui/icons-material/Google";
-import { useState } from "react";
 import Link from "next/link";
 import FormSection from "./FormSection";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { useRegisterMutation } from "@services/rootApi";
+import { RegisterFormData } from "_types/component";
+
+const message: string =
+  "Password must have at least 1 lowercase character, 1 uppercase character, 1 numeric character, and 1 special character.";
 
 const formSchema = yup.object().shape({
-  email: yup
-    .string()
-    .matches(
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-      "Email is not valid",
-    )
-    .required("Email is required"),
+  email: yup.string().email("Email is not valid").required("Email is required"),
   username: yup.string().required("Username is required"),
-  password: yup.string().required("Password is required"),
-  confirmPassword: yup.string().required("Password is required"),
+  password: yup
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .matches(/[a-z]/, message)
+    .matches(/[A-Z]/, message)
+    .matches(/\d/, message)
+    .matches(/[@$!%*?&]/, message)
+    .required("Password is required"),
+  confirmPassword: yup
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .oneOf([yup.ref("password"), null], "Passwords must match")
+    .required("Confirm password is required"),
 });
 
 const RegisterDialog = ({ setCurrentModal, setDirection }) => {
   const {
     control,
+    setError,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -36,12 +44,27 @@ const RegisterDialog = ({ setCurrentModal, setDirection }) => {
       confirmPassword: "",
     },
   });
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [register, { isLoading }] = useRegisterMutation();
 
-  const onSubmit = () => {
-    setCurrentModal(1);
-    setDirection(1);
+  const onSubmit = async (formData: RegisterFormData) => {
+    try {
+      const data = await register(formData).unwrap();
+
+      localStorage.setItem("email", JSON.stringify(formData.email));
+
+      if (data.code == 200 && data.status == "success") {
+        setCurrentModal(1);
+        setDirection(1);
+      }
+    } catch (error) {
+      console.log(">> check error", error);
+      if (error.data.error.code == 11000) {
+        setError("email", {
+          type: "manual",
+          message: "Email already exists ! Chose another email",
+        });
+      }
+    }
   };
 
   const handleGoogleLogin = () => {};
@@ -75,33 +98,20 @@ const RegisterDialog = ({ setCurrentModal, setDirection }) => {
           label="Password"
           control={control}
           error={errors["password"]}
-          inputType={showPassword ? "text" : "password"}
-          suffix={
-            showPassword ? (
-              <VisibilityIcon onClick={() => setShowPassword(false)} />
-            ) : (
-              <VisibilityOffIcon onClick={() => setShowPassword(true)} />
-            )
-          }
+          inputType="password"
         />
         <FormSection
           name="confirmPassword"
           label="Confirm password"
           control={control}
           error={errors["confirmPassword"]}
-          inputType={showPassword ? "text" : "password"}
-          suffix={
-            showConfirmPassword ? (
-              <VisibilityIcon onClick={() => setShowConfirmPassword(false)} />
-            ) : (
-              <VisibilityOffIcon onClick={() => setShowConfirmPassword(true)} />
-            )
-          }
+          inputType="password"
         />
         <Button
           type="primary"
           block
           htmlType="submit"
+          loading={isLoading}
           className="mb-3 mt-6 text-lg"
         >
           Register
