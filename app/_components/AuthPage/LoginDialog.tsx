@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, Divider } from "antd";
 import GoogleIcon from "@mui/icons-material/Google";
 import Link from "next/link";
 import FormSection from "./FormSection";
@@ -8,6 +8,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginFormData } from "_types/component";
 import { useLoginMutation } from "@services/rootApi";
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@libs/hooks";
+import { signIn } from "@libs/features/auth/authSlice";
 
 const message: string =
   "Password must have at least 1 lowercase character, 1 uppercase character, 1 numeric character, and 1 special character.";
@@ -26,6 +28,7 @@ const formSchema = yup.object().shape({
 
 const LoginDialog = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const {
     control,
     handleSubmit,
@@ -41,7 +44,6 @@ const LoginDialog = () => {
   const [login, { isLoading }] = useLoginMutation();
 
   const onSubmit = async (formData: LoginFormData) => {
-    // Login submit logic placeholder
     const { data, error } = await login(formData);
 
     if (error) {
@@ -57,11 +59,32 @@ const LoginDialog = () => {
     }
 
     if (data.code == 200 && data.status == "success") {
-      // give access token and refresh token
-      // redirect to home page
+      const {
+        data: {
+          accessToken,
+          refreshToken,
+          userInfo: { email, username },
+        },
+      } = data;
+      dispatch(
+        signIn({
+          accessToken,
+          refreshToken,
+          isAuthenticated: true,
+          userInfo: {
+            email,
+            username,
+          },
+        }),
+      );
       router.push("/");
     }
   };
+
+  // const handleForgotPassword = () => {
+  //   setCurrentModal(1);
+  //   setDirection(1);
+  // };
 
   const handleGoogleLogin = () => {
     // Google login logic placeholder
@@ -90,21 +113,25 @@ const LoginDialog = () => {
           error={errors["password"]}
           inputType="password"
         />
+        {/* <div
+          className="cursor-pointer text-right text-main"
+          onClick={handleForgotPassword}
+        >
+          Forgot Password?
+        </div> */}
         <Button
           type="primary"
           block
           loading={isLoading}
           htmlType="submit"
-          className="mb-3 mt-6 text-lg"
+          className="mt-3 text-lg"
         >
           Login
         </Button>
       </form>
-
-      <div className="mb-4 cursor-pointer text-right text-main">
-        Forgot Password?
-      </div>
-
+      <Divider className="mb-5 !border-textDark text-sm !text-textColor">
+        Or
+      </Divider>
       <Button
         icon={<GoogleIcon />}
         block

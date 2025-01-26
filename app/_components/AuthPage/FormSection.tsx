@@ -5,12 +5,14 @@ import TextInput from "./Form/TextInput";
 const FormSection = ({
   name,
   label,
+  disabled = false,
   control,
   error,
   inputType = "text",
 }: {
   name: string;
   label?: string;
+  disabled?: boolean;
   control: Control;
   error: FieldError;
   inputType?: "text" | "password" | "otp";
@@ -32,6 +34,7 @@ const FormSection = ({
                 <TextInput
                   value={value}
                   name={name}
+                  disabled={disabled}
                   onChange={onChange}
                   className={`!h-[40px] !rounded-lg !bg-bgLightColor !text-lg !text-textColor hover:border-main ${error?.message && "border-red-500"}`}
                 />

@@ -1,9 +1,17 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { signOut, updateTokens } from "@libs/features/auth/authSlice";
+import {
+  BaseQueryApi,
+  createApi,
+  FetchArgs,
+  fetchBaseQuery,
+} from "@reduxjs/toolkit/query/react";
 import {
   AuthResponse,
   PlaylistResponse,
+  RefreshTokenResponse,
   RegisterResponse,
   SongResponse,
+  VerifyTokenResponse,
 } from "_types/api";
 import { LoginFormData, RegisterFormData } from "_types/component";
 import { FileProps } from "_types/entity";
@@ -11,17 +19,51 @@ import { FileProps } from "_types/entity";
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_URL,
   prepareHeaders: (headers, { getState }) => {
-    // const token = getState().auth.token;
-    // if (token) {
-    //     headers.set("authorization", `Bearer ${token}`);
-    // }
+    const token = getState().auth.accessToken;
+    if (token) {
+      headers.set("authorization", `Bearer ${token}`);
+    }
     return headers;
   },
 });
 
+const baseQueryWithReauth = async (
+  args: string | FetchArgs,
+  api: BaseQueryApi,
+  extraOptions: object,
+) => {
+  let result = await baseQuery(args, api, extraOptions);
+  if (result?.error?.status === 401) {
+    try {
+      const refreshResult = await baseQuery(
+        "/auth/refresh-token",
+        api,
+        extraOptions,
+      );
+
+      if (refreshResult?.data) {
+        const { accessToken, refreshToken } =
+          refreshResult?.data as RefreshTokenResponse;
+
+        api.dispatch(updateTokens({ accessToken, refreshToken }));
+
+        result = await baseQuery(args, api, extraOptions);
+      } else {
+        api.dispatch(signOut());
+        throw refreshResult.error;
+      }
+    } catch (error) {
+      api.dispatch(signOut());
+      window.location.href = "/login";
+      return { error };
+    }
+  }
+  return result;
+};
+
 export const rootApi = createApi({
   reducerPath: "rootApi",
-  baseQuery,
+  baseQuery: baseQueryWithReauth,
   tagTypes: ["Song", "Playlist"],
   endpoints: (builder) => {
     return {
@@ -61,6 +103,17 @@ export const rootApi = createApi({
           },
         },
       ),
+      reSendOtp: builder.mutation<AuthResponse, string>({
+        query: (email: string) => {
+          return {
+            url: "/auth/send-otp",
+            method: "POST",
+            body: {
+              email,
+            },
+          };
+        },
+      }),
       getSong: builder.query<SongResponse, void>({
         query: () => "/song",
         providesTags: [{ type: "Song" }],
@@ -78,7 +131,6 @@ export const rootApi = createApi({
       }),
       getPlaylistById: builder.query<PlaylistResponse, string>({
         query: (id: string) => {
-          console.log(">> check id", id);
           return `/playlist/${id}`;
         },
         providesTags: [{ type: "Playlist" }],
@@ -103,6 +155,20 @@ export const rootApi = createApi({
         },
         invalidatesTags: [{ type: "Song" }],
       }),
+      verifyToken: builder.query<VerifyTokenResponse, void>({
+        query: () => "/auth/verify-token",
+      }),
+      refreshToken: builder.mutation<RefreshTokenResponse, string>({
+        query: (refreshToken: string) => {
+          return {
+            url: "/auth/refresh-token",
+            method: "POST",
+            body: {
+              refreshToken,
+            },
+          };
+        },
+      }),
     };
   },
 });
@@ -111,10 +177,13 @@ export const {
   useRegisterMutation,
   useLoginMutation,
   useVerifyOtpMutation,
+  useReSendOtpMutation,
   useGetSongQuery,
   useLazyGetSongByNameQuery,
   useGetPlaylistQuery,
   useGetPlaylistByIdQuery,
   useCreatePlaylistMutation,
   useUploadFilesMutation,
+  useVerifyTokenQuery,
+  useRefreshTokenMutation,
 } = rootApi;

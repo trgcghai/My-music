@@ -1,14 +1,35 @@
 "use client";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import Loading from "@components/Loading";
 import CustomModal from "@components/Modal/CustomModal";
 import Navbar from "@components/Navbar";
 import PlayingController from "@components/PlayingController/PlayingController";
+import { useVerifyTokenQuery } from "@services/rootApi";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect } from "react";
 
 const ClientProvider = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
+  const router = useRouter();
+  const { data, isLoading, isError, error } = useVerifyTokenQuery();
+
+  const handleRedirect = useCallback(() => {
+    router.push("/login");
+  }, [router]);
+
+  useEffect(() => {
+    if (isError && "status" in error && error.status == 401) {
+      handleRedirect();
+    }
+  }, [data, error, isError, handleRedirect]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <div>
       <AntdRegistry>

@@ -10,6 +10,7 @@ interface TextInputProps {
   name: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange: (...event: any[]) => void;
+  disabled?: boolean;
   variant?: "outlined" | "borderless" | "filled";
   className?: string;
 }

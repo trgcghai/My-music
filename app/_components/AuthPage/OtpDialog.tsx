@@ -1,30 +1,25 @@
-import { useVerifyOtpMutation } from "@services/rootApi";
+import { useReSendOtpMutation, useVerifyOtpMutation } from "@services/rootApi";
 import { Button, ConfigProvider, Input } from "antd";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-const OtpDialog = () => {
+const OtpDialog = ({ email }) => {
   const router = useRouter();
-  const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
+  const [error, setError] = useState(null);
+  const [verifyOtp, { isLoading: verifyLoading }] = useVerifyOtpMutation();
+  const [reSendOtp, { isSuccess }] = useReSendOtpMutation();
   const handleOnChange = async (e: string) => {
-    console.log(e);
-
-    const email = JSON.parse(localStorage.getItem("email"));
-
-    const { data, error } = await verifyOtp({
-      email,
-      otp: e,
-    });
-
+    const { data, error } = await verifyOtp({ email, otp: e });
     if (error) {
-      // handle wrong otp error
-      alert("Error: " + error);
+      setError(error);
     }
-
     if (data.code == 200 && data.status == "success") {
-      // handle success and redirect to home page
-
-      router.push("/");
+      router.push("/login");
     }
+  };
+
+  const handleReSendOtp = async () => {
+    await reSendOtp(email).unwrap();
   };
 
   return (
@@ -32,10 +27,21 @@ const OtpDialog = () => {
       <h2 className="text-center text-2xl font-bold text-textColor">
         Input the OTP
       </h2>
-      <div className="mb-5 text-center text-textColor">
+      <div className="mb-5 mt-2 text-center text-textColor">
         Didn&apos;t get the OTP?
-        <span className="ml-1 cursor-pointer text-main">Send again</span>
+        <span
+          className="ml-1 cursor-pointer text-main"
+          onClick={handleReSendOtp}
+        >
+          Send again
+        </span>
+        {isSuccess && (
+          <p className="my-2 text-center text-textColor">
+            We have sent the OTP again, check your email
+          </p>
+        )}
       </div>
+
       <form action="">
         <ConfigProvider
           theme={{
@@ -48,12 +54,17 @@ const OtpDialog = () => {
         >
           <Input.OTP size="large" onChange={handleOnChange} />
         </ConfigProvider>
+        {error && error.data.message && (
+          <span className="mt-2 block text-sm text-red-500">
+            {error.data.message}
+          </span>
+        )}
         <Button
           type="primary"
           block
-          loading={isLoading}
+          loading={verifyLoading}
           htmlType="submit"
-          className="mb-3 mt-6 text-lg"
+          className="mb-3 mt-4 text-lg"
         >
           Confirm
         </Button>

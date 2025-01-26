@@ -29,7 +29,7 @@ const formSchema = yup.object().shape({
     .required("Confirm password is required"),
 });
 
-const RegisterDialog = ({ setCurrentModal, setDirection }) => {
+const RegisterDialog = ({ setCurrentModal, setDirection, setEmail }) => {
   const {
     control,
     setError,
@@ -50,7 +50,7 @@ const RegisterDialog = ({ setCurrentModal, setDirection }) => {
     try {
       const data = await register(formData).unwrap();
 
-      localStorage.setItem("email", JSON.stringify(formData.email));
+      setEmail(formData.email);
 
       if (data.code == 200 && data.status == "success") {
         setCurrentModal(1);
@@ -67,7 +67,9 @@ const RegisterDialog = ({ setCurrentModal, setDirection }) => {
     }
   };
 
-  const handleGoogleLogin = () => {};
+  const handleGoogleRegister = () => {
+    // handle google register
+  };
 
   return (
     <div className="w-[500px] rounded-lg bg-bgLightColor p-8 text-textColor">
@@ -126,7 +128,7 @@ const RegisterDialog = ({ setCurrentModal, setDirection }) => {
         icon={<GoogleIcon />}
         block
         className="flex items-center justify-center bg-bgLightColor py-4 text-lg text-textColor"
-        onClick={handleGoogleLogin}
+        onClick={handleGoogleRegister}
       >
         Continue with Google
       </Button>

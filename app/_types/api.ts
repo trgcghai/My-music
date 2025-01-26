@@ -17,10 +17,33 @@ export interface AuthResponse {
   code: number;
   message: string;
   status: string;
+  data?: {
+    accessToken: string;
+    refreshToken: string;
+    userInfo: {
+      email: string;
+      username: string;
+    };
+  };
 }
 
 export interface RegisterResponse {
   code: number;
   message: string;
   status: string;
+}
+
+export interface VerifyTokenResponse {
+  status: string;
+  code: number;
+  message: string;
+  userInfo?: object;
+}
+
+export interface RefreshTokenResponse {
+  status: string;
+  code: number;
+  message: string;
+  accessToken?: string;
+  refreshToken?: string;
 }

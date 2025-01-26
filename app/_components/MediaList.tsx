@@ -1,6 +1,6 @@
-import { Playlist } from "define";
 import Link from "next/link";
 import PlaylistCard from "./PlaylistCard";
+import { Playlist } from "_types/entity";
 
 const MediaList = <T extends Playlist>({ playlist }: MediaListProps<T>) => {
   return (

@@ -24,6 +24,7 @@ const slideVariants = {
 const Page = () => {
   const [currentModal, setCurrentModal] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [email, setEmail] = useState("");
 
   const modals = [
     {
@@ -32,12 +33,13 @@ const Page = () => {
         <RegisterDialog
           setCurrentModal={setCurrentModal}
           setDirection={setDirection}
+          setEmail={setEmail}
         />
       ),
     },
     {
       key: "otp",
-      content: <OtpDialog />,
+      content: <OtpDialog email={email} />,
     },
   ];
 
