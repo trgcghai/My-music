@@ -4,7 +4,7 @@ import TableSongs from "@components/TableSongs";
 import { openModal } from "@libs/features/modal/modalSlice";
 import { useAppDispatch } from "@libs/hooks";
 import { AddCircleOutline } from "@mui/icons-material";
-import { useGetSongQuery } from "@services/rootApi";
+import { useGetSongQuery } from "@services/songApi";
 import { ModalType } from "_types/component";
 import { Button } from "antd";
 

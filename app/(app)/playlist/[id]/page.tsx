@@ -2,7 +2,7 @@
 import ImageLoader from "@components/ImageLoader";
 import Loading from "@components/Loading";
 import TableSongs from "@components/TableSongs";
-import { useGetPlaylistByIdQuery } from "@services/rootApi";
+import { useGetPlaylistByIdQuery } from "@services/playlistApi";
 import { useParams } from "next/navigation";
 
 const Page = () => {

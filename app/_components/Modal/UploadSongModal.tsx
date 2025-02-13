@@ -1,21 +1,21 @@
 import DragFileInput from "@components/DragFileInput";
-import { setFiles } from "@libs/features/file/fileSlice";
 import { closeModal } from "@libs/features/modal/modalSlice";
 import { useAppDispatch, useAppSelector } from "@libs/hooks";
 import { useUploadFilesMutation } from "@services/rootApi";
+import { DynamicModalProps } from "_types/component";
 import { Modal } from "antd";
-import { DynamicModalProps } from "define";
+import { useState } from "react";
 
 const UploadSongModal = (props: DynamicModalProps) => {
   const dispatch = useAppDispatch();
+  const [files, setFiles] = useState<File[]>([]);
   const [uploadFiles] = useUploadFilesMutation();
-  const { files } = useAppSelector((state) => state.file);
   const { open, title } = useAppSelector((state) => state.modal);
   const dragFileInputClassName =
     "text-md flex h-[100px] cursor-pointer items-center justify-center gap-2 rounded-md border-0 bg-gray-800 p-3 text-lg text-white hover:bg-bgHover";
 
   const handleCancel = () => {
-    dispatch(setFiles([]));
+    setFiles([]);
     dispatch(closeModal());
   };
 
@@ -23,10 +23,21 @@ const UploadSongModal = (props: DynamicModalProps) => {
     if (!files) return;
     if (files?.length == 0) return;
 
-    uploadFiles(files);
+    try {
+      const formData = new FormData();
+      files.forEach((file: File) => {
+        formData.append("files", file);
+      });
 
-    dispatch(setFiles([]));
-    dispatch(closeModal());
+      const result = await uploadFiles(formData).unwrap();
+
+      console.log("upload result", result);
+
+      setFiles([]);
+      dispatch(closeModal());
+    } catch (error) {
+      console.error("Upload failed:", error);
+    }
   };
 
   return (
@@ -37,7 +48,12 @@ const UploadSongModal = (props: DynamicModalProps) => {
       onOk={handleConfirm}
       onCancel={handleCancel}
     >
-      <DragFileInput className={dragFileInputClassName} />;
+      <DragFileInput
+        className={dragFileInputClassName}
+        files={files}
+        setFiles={setFiles}
+      />
+      ;
     </Modal>
   );
 };

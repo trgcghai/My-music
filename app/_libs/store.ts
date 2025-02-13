@@ -11,7 +11,6 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { fileSlice } from "./features/file/fileSlice";
 import { modalSlice } from "./features/modal/modalSlice";
 import { authSlice } from "./features/auth/authSlice";
 
@@ -22,7 +21,6 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  file: fileSlice.reducer,
   modal: modalSlice.reducer,
   auth: authSlice.reducer,
   [rootApi.reducerPath]: rootApi.reducer,

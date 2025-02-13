@@ -5,8 +5,9 @@ import FormSection from "./FormSection";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { useRegisterMutation } from "@services/rootApi";
 import { RegisterFormData } from "_types/component";
+import { useRegisterMutation } from "@services/rootApi";
+import { useGoogleRegister } from "@libs/hooks";
 
 const message: string =
   "Password must have at least 1 lowercase character, 1 uppercase character, 1 numeric character, and 1 special character.";
@@ -29,7 +30,7 @@ const formSchema = yup.object().shape({
     .required("Confirm password is required"),
 });
 
-const RegisterDialog = ({ setCurrentModal, setDirection, setEmail }) => {
+const RegisterDialog = ({ setCurrentModal, setDirection }) => {
   const {
     control,
     setError,
@@ -45,19 +46,25 @@ const RegisterDialog = ({ setCurrentModal, setDirection, setEmail }) => {
     },
   });
   const [register, { isLoading }] = useRegisterMutation();
+  const {
+    signInGooglePopup,
+    data: googleData,
+    isLoading: isGoogleLoading,
+  } = useGoogleRegister();
 
   const onSubmit = async (formData: RegisterFormData) => {
     try {
-      const data = await register(formData).unwrap();
-
-      setEmail(formData.email);
+      const submitData: RegisterFormData = {
+        ...formData,
+        providerId: "form",
+      };
+      const data = await register(submitData).unwrap();
 
       if (data.code == 200 && data.status == "success") {
         setCurrentModal(1);
         setDirection(1);
       }
     } catch (error) {
-      console.log(">> check error", error);
       if (error.data.error.code == 11000) {
         setError("email", {
           type: "manual",
@@ -67,8 +74,20 @@ const RegisterDialog = ({ setCurrentModal, setDirection, setEmail }) => {
     }
   };
 
-  const handleGoogleRegister = () => {
+  const handleGoogleRegister = async () => {
     // handle google register
+    await signInGooglePopup();
+
+    console.log(googleData);
+    const {
+      data: { status, code },
+    } = googleData;
+
+    if (status == "success" && code == 200) {
+      console.log("Google register success");
+      setCurrentModal(1);
+      setDirection(1);
+    }
   };
 
   return (
@@ -114,6 +133,7 @@ const RegisterDialog = ({ setCurrentModal, setDirection, setEmail }) => {
           block
           htmlType="submit"
           loading={isLoading}
+          disabled={isLoading}
           className="mb-3 mt-6 text-lg"
         >
           Register
@@ -128,6 +148,8 @@ const RegisterDialog = ({ setCurrentModal, setDirection, setEmail }) => {
         icon={<GoogleIcon />}
         block
         className="flex items-center justify-center bg-bgLightColor py-4 text-lg text-textColor"
+        loading={isGoogleLoading}
+        disabled={isGoogleLoading}
         onClick={handleGoogleRegister}
       >
         Continue with Google

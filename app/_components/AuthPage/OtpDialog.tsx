@@ -1,20 +1,45 @@
+import { signIn } from "@libs/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "@libs/hooks";
 import { useReSendOtpMutation, useVerifyOtpMutation } from "@services/rootApi";
 import { Button, ConfigProvider, Input } from "antd";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const OtpDialog = ({ email }) => {
+const OtpDialog = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [error, setError] = useState(null);
   const [verifyOtp, { isLoading: verifyLoading }] = useVerifyOtpMutation();
   const [reSendOtp, { isSuccess }] = useReSendOtpMutation();
+  const {
+    userInfo: { email },
+  } = useAppSelector((state) => state.auth);
   const handleOnChange = async (e: string) => {
     const { data, error } = await verifyOtp({ email, otp: e });
     if (error) {
       setError(error);
     }
     if (data.code == 200 && data.status == "success") {
-      router.push("/login");
+      console.log("data check in OtpDialog", data);
+      const {
+        data: {
+          accessToken,
+          refreshToken,
+          userInfo: { email, username },
+        },
+      } = data;
+      dispatch(
+        signIn({
+          accessToken,
+          refreshToken,
+          isAuthenticated: true,
+          userInfo: {
+            email,
+            username,
+          },
+        }),
+      );
+      router.push("/");
     }
   };
 

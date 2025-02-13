@@ -4,7 +4,7 @@ import PlaylistCard from "@components/PlaylistCard";
 import { openModal } from "@libs/features/modal/modalSlice";
 import { useAppDispatch } from "@libs/hooks";
 import { AddCircleOutline } from "@mui/icons-material";
-import { useGetPlaylistQuery } from "@services/rootApi";
+import { useGetPlaylistQuery } from "@services/playlistApi";
 import { ModalType } from "_types/component";
 import { Button } from "antd";
 

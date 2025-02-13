@@ -3,7 +3,8 @@ import Loading from "@components/Loading";
 import MediaList from "@components/MediaList";
 import SearchInput from "@components/SearchInput";
 import TableSongs from "@components/TableSongs";
-import { useGetPlaylistQuery, useGetSongQuery } from "@services/rootApi";
+import { useGetPlaylistQuery } from "@services/playlistApi";
+import { useGetSongQuery } from "@services/songApi";
 import Link from "next/link";
 
 export default function Home() {

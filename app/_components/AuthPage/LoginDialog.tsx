@@ -8,7 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginFormData } from "_types/component";
 import { useLoginMutation } from "@services/rootApi";
 import { useRouter } from "next/navigation";
-import { useAppDispatch } from "@libs/hooks";
+import { useAppDispatch, useGoogleLogin } from "@libs/hooks";
 import { signIn } from "@libs/features/auth/authSlice";
 
 const message: string =
@@ -42,6 +42,7 @@ const LoginDialog = () => {
     },
   });
   const [login, { isLoading }] = useLoginMutation();
+  const { loginGooglePopup, data: googleData } = useGoogleLogin();
 
   const onSubmit = async (formData: LoginFormData) => {
     const { data, error } = await login(formData);
@@ -86,8 +87,20 @@ const LoginDialog = () => {
   //   setDirection(1);
   // };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
     // Google login logic placeholder
+    await loginGooglePopup();
+
+    console.log(googleData);
+    const {
+      data: { status, code },
+    } = googleData;
+
+    if (status == "success" && code == 200) {
+      console.log("Google register success");
+      // setCurrentModal(1);
+      // setDirection(1);
+    }
   };
 
   return (
@@ -113,12 +126,6 @@ const LoginDialog = () => {
           error={errors["password"]}
           inputType="password"
         />
-        {/* <div
-          className="cursor-pointer text-right text-main"
-          onClick={handleForgotPassword}
-        >
-          Forgot Password?
-        </div> */}
         <Button
           type="primary"
           block

@@ -1,4 +1,5 @@
 import { signOut, updateTokens } from "@libs/features/auth/authSlice";
+import { RootState } from "@libs/store";
 import {
   BaseQueryApi,
   createApi,
@@ -7,19 +8,17 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import {
   AuthResponse,
-  PlaylistResponse,
   RefreshTokenResponse,
   RegisterResponse,
-  SongResponse,
+  UploadResponse,
   VerifyTokenResponse,
 } from "_types/api";
 import { LoginFormData, RegisterFormData } from "_types/component";
-import { FileProps } from "_types/entity";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_URL,
   prepareHeaders: (headers, { getState }) => {
-    const token = getState().auth.accessToken;
+    const token = (getState() as RootState).auth.accessToken;
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
     }
@@ -64,6 +63,9 @@ const baseQueryWithReauth = async (
 export const rootApi = createApi({
   reducerPath: "rootApi",
   baseQuery: baseQueryWithReauth,
+  refetchOnFocus: true,
+  refetchOnReconnect: true,
+  refetchOnMountOrArgChange: 20,
   tagTypes: ["Song", "Playlist"],
   endpoints: (builder) => {
     return {
@@ -114,43 +116,12 @@ export const rootApi = createApi({
           };
         },
       }),
-      getSong: builder.query<SongResponse, void>({
-        query: () => "/song",
-        providesTags: [{ type: "Song" }],
-      }),
-      getSongByName: builder.query<SongResponse, string>({
-        query: (name: string) => {
-          const params = new URLSearchParams({ name });
-          return `/song?${params.toString()}`;
-        },
-        providesTags: [{ type: "Song" }],
-      }),
-      getPlaylist: builder.query<PlaylistResponse, void>({
-        query: () => `/playlist`,
-        providesTags: [{ type: "Playlist" }],
-      }),
-      getPlaylistById: builder.query<PlaylistResponse, string>({
-        query: (id: string) => {
-          return `/playlist/${id}`;
-        },
-        providesTags: [{ type: "Playlist" }],
-      }),
-      createPlaylist: builder.mutation<void, string>({
-        query: (name) => {
-          return {
-            url: `/playlist`,
-            method: "POST",
-            body: { playlist: name },
-          };
-        },
-        invalidatesTags: [{ type: "Playlist" }],
-      }),
-      uploadFiles: builder.mutation<void, FileProps[]>({
-        query: (files) => {
+      uploadFiles: builder.mutation<UploadResponse, FormData>({
+        query: (formData) => {
           return {
             url: "/song",
             method: "POST",
-            body: { songs: files },
+            body: formData,
           };
         },
         invalidatesTags: [{ type: "Song" }],
@@ -178,11 +149,6 @@ export const {
   useLoginMutation,
   useVerifyOtpMutation,
   useReSendOtpMutation,
-  useGetSongQuery,
-  useLazyGetSongByNameQuery,
-  useGetPlaylistQuery,
-  useGetPlaylistByIdQuery,
-  useCreatePlaylistMutation,
   useUploadFilesMutation,
   useVerifyTokenQuery,
   useRefreshTokenMutation,

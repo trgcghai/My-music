@@ -4,13 +4,15 @@ import { LegacyButtonType } from "antd/es/button/button";
 export interface RegisterFormData {
   email: string;
   username: string;
-  password: string;
-  confirmPassword: string;
+  password?: string;
+  confirmPassword?: string;
+  providerId: "form" | "google";
 }
 
 export interface LoginFormData {
   email: string;
-  password: string;
+  password?: string;
+  providerId: "form" | "google";
 }
 
 export enum ModalType {

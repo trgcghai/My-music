@@ -1,14 +1,3 @@
-export interface FileProps {
-  path: string;
-  relativePath: string;
-  lastModified: number;
-  lastModifiedDate: Date;
-  name: string;
-  size: number;
-  type: string;
-  webkitRelativePath: string;
-}
-
 export interface Song {
   key: string;
   name: string;
@@ -17,28 +6,27 @@ export interface Song {
   length: number;
 }
 
-export interface SongMetadata {
+export interface SongData {
   _id: string;
-  format: {
-    tagTypes: string[];
-    codec: string;
-    sampleRate: number;
-    bitrate: number;
-    duration: number;
+  metadata: {
+    format: {
+      tagTypes: string[];
+      codec: string;
+      sampleRate: number;
+      bitrate: number;
+      duration: number;
+    };
+    common: {
+      title: string;
+      artist: string;
+      artists: string[];
+      album: string;
+      year: string;
+    };
   };
-  common: {
-    title: string;
-    artist: string;
-    artists: string[];
-    album: string;
-    year: string;
-  };
-  path: {
-    audio: string;
-    thumbnail: string;
-  };
-  createdAt: Date;
-  lastModified: Date;
+  originalName: string;
+  size: number;
+  url: string;
 }
 
 export interface Playlist {

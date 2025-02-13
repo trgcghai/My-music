@@ -1,35 +1,21 @@
 "use client";
-import { setFiles } from "@libs/features/file/fileSlice";
-import { useAppDispatch, useAppSelector } from "@libs/hooks";
 import { AddCircleOutline } from "@mui/icons-material";
-import { FileProps } from "define";
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
 const DragFileInput = ({
   className = "",
+  files,
+  setFiles,
 }: {
   title?: string;
   className: string;
+  files?: File[];
+  setFiles?: (files: File[]) => void;
 }) => {
-  const { files } = useAppSelector((state) => state.file);
-  const dispatch = useAppDispatch();
-
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      const mappedFiles = acceptedFiles.map((file: File) => {
-        return {
-          name: file.name,
-          path: "./" + file.name,
-          relativePath: "./" + file.name,
-          lastModifiedDate: new Date(file.lastModified).toISOString(),
-          lastModified: file.lastModified,
-          size: file.size,
-          type: file.type,
-          webkitRelativePath: file.webkitRelativePath,
-        };
-      }) as unknown as FileProps[];
-      dispatch(setFiles(mappedFiles));
+      setFiles(acceptedFiles);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [JSON.stringify(setFiles)],
@@ -49,6 +35,7 @@ const DragFileInput = ({
         ".flac",
       ],
     },
+    maxSize: 20 * 1024 * 1024,
   });
 
   return (

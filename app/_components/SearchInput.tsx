@@ -1,5 +1,5 @@
 "use client";
-import { useLazyGetSongByNameQuery } from "@services/rootApi";
+import { useLazyGetSongByNameQuery } from "@services/songApi";
 import { Input } from "antd";
 import { FormEvent, useEffect, useState } from "react";
 

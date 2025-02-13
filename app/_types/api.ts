@@ -47,3 +47,12 @@ export interface RefreshTokenResponse {
   accessToken?: string;
   refreshToken?: string;
 }
+
+export interface UploadResponse {
+  success: boolean;
+  files: {
+    url: string;
+    publicId: string;
+    originalName: string;
+  }[];
+}
