@@ -9,6 +9,7 @@ const CreatePlaylistModal = (props: DynamicModalProps) => {
   const dispatch = useAppDispatch();
   const [playlist, setPlaylist] = useState("");
   const { open, title } = useAppSelector((state) => state.modal);
+  const { userInfo } = useAppSelector((state) => state.auth);
   const [createPlaylist] = useCreatePlaylistMutation();
 
   const handleCancel = () => {
@@ -18,7 +19,8 @@ const CreatePlaylistModal = (props: DynamicModalProps) => {
 
   const handleConfirm = async () => {
     if (!playlist) return;
-    await createPlaylist(playlist).unwrap();
+    const result = await createPlaylist({ playlist, userInfo }).unwrap();
+    console.log("create playlist result:", result);
     setPlaylist("");
     dispatch(closeModal());
   };
@@ -33,7 +35,7 @@ const CreatePlaylistModal = (props: DynamicModalProps) => {
     >
       <p className="mb-1 text-lg text-textColor">Name your playlist</p>
       <Input
-        className="!h-[40px] !rounded-lg !bg-bgLightColor !text-lg !text-textColor hover:border-main"
+        className="!bg-bgColorLight !h-[40px] !rounded-lg !text-lg !text-textColor hover:border-main"
         value={playlist}
         onChange={(e) => setPlaylist(e.target.value)}
       />

@@ -24,7 +24,7 @@ const NavbarItem = ({
   const path = usePathname();
   const getClassName = (pathArg: string) => {
     const linkClassName =
-      "flex w-full items-center gap-2 rounded-md p-2 text-lg font-bold hover:bg-bgHover";
+      "flex w-full items-center gap-2 rounded-md p-2 text-lg font-bold hover:bg-bgColorSuperLight";
 
     if (
       (path == "/" && pathArg == "/") ||
@@ -51,7 +51,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex flex-1 flex-col items-start gap-2 bg-bgLightColor p-4 capitalize text-textColor">
+    <div className="bg-bgColorLight flex flex-1 flex-col items-start gap-2 p-4 capitalize text-textColor">
       <div className="w-full space-y-2">
         <NavbarItem href="/" icon={<HomeRounded />} content="Home" />
         <NavbarItem

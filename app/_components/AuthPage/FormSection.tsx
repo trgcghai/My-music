@@ -36,7 +36,7 @@ const FormSection = ({
                   name={name}
                   disabled={disabled}
                   onChange={onChange}
-                  className={`!h-[40px] !rounded-lg !bg-bgLightColor !text-lg !text-textColor hover:border-main ${error?.message && "border-red-500"}`}
+                  className={`!bg-bgColorLight !h-[40px] !rounded-lg !text-lg !text-textColor hover:border-main ${error?.message && "border-red-500"}`}
                 />
               );
             case "password":
@@ -46,7 +46,7 @@ const FormSection = ({
                   onChange={onChange}
                   name={name}
                   variant="outlined"
-                  className={`!h-[40px] !rounded-lg !bg-bgLightColor !text-lg !text-textColor hover:border-main ${error?.message && "border-red-500"}`}
+                  className={`!bg-bgColorLight !h-[40px] !rounded-lg !text-lg !text-textColor hover:border-main ${error?.message && "border-red-500"}`}
                 />
               );
           }

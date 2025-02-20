@@ -33,6 +33,7 @@
       "@providers/*": ["_providers/*"],
       "@services/*": ["_services/*"],
       "@utils/*": ["_utils/*"],
+      "@hooks/*": ["_hooks/*"],
     }
   },
   "include": [

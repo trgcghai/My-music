@@ -37,12 +37,13 @@ const CustomModal = () => {
         okText="Confirm"
         okType="primary"
         okButtonProps={{
-          className: "!w-[100px] !border-0 !bg-main !text-lg hover:!bg-bgHover",
+          className:
+            "!w-[100px] !border-0 !bg-main !text-lg hover:!bg-bgColorSuperLight",
         }}
         cancelText="Cancel"
         cancelButtonProps={{
           className:
-            "!w-[100px] !border-0 !bg-bgLightColor !text-lg !text-textColor hover:!bg-red-500 hover:!text-white",
+            "!w-[100px] !border-0 !bg-bgColorLight !text-lg !text-textColor hover:!bg-red-500 hover:!text-white",
         }}
       />
     </ConfigProvider>

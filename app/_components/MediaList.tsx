@@ -1,6 +1,7 @@
 import Link from "next/link";
 import PlaylistCard from "./PlaylistCard";
 import { Playlist } from "_types/entity";
+import { getPlaylistLength } from "@utils/getPlaylistLength";
 
 const MediaList = <T extends Playlist>({ playlist }: MediaListProps<T>) => {
   return (
@@ -11,14 +12,15 @@ const MediaList = <T extends Playlist>({ playlist }: MediaListProps<T>) => {
           See all
         </Link>
       </div>
-      <div className="mt-2 flex items-center gap-6 p-2">
+      <div className="mt-2 grid grid-cols-2 items-center gap-6 p-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
         {playlist.map((playlist) => {
           return (
             <PlaylistCard
               key={playlist._id}
               id={playlist._id}
-              thumbnail={playlist.thumbnail}
               title={playlist.name}
+              songCount={playlist.songs.length}
+              duration={getPlaylistLength(playlist.songs).toString()}
             />
           );
         })}

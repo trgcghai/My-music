@@ -48,7 +48,7 @@ const OtpDialog = () => {
   };
 
   return (
-    <div className="w-[500px] rounded-lg bg-bgLightColor p-8 text-textColor">
+    <div className="bg-bgColorLight w-[500px] rounded-lg p-8 text-textColor">
       <h2 className="text-center text-2xl font-bold text-textColor">
         Input the OTP
       </h2>

@@ -27,21 +27,15 @@ export interface SongData {
   originalName: string;
   size: number;
   url: string;
+  publicId: string;
+  format: string;
+  duration: number;
 }
 
 export interface Playlist {
   _id: string;
   name: string;
-  songs: {
-    _id: string;
-    title: string;
-    artist: string;
-    duration: number;
-    path: {
-      audio: string;
-      thumbnail: string;
-    };
-  }[];
+  songs: SongData[];
   owner: {
     _id: string;
     username: string;
@@ -49,15 +43,4 @@ export interface Playlist {
   thumbnail: string;
   createdAt: Date;
   lastModified: Date;
-}
-
-export interface SongInPlaylist {
-  _id: string;
-  title: string;
-  artist: string;
-  duration: number;
-  path: {
-    audio: string;
-    thumbnail: string;
-  };
 }

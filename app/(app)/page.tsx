@@ -2,12 +2,14 @@
 import Loading from "@components/Loading";
 import MediaList from "@components/MediaList";
 import SearchInput from "@components/SearchInput";
-import TableSongs from "@components/TableSongs";
-import { useGetPlaylistQuery } from "@services/playlistApi";
+import SongList from "@components/TableSong/SongList";
+import { useAppSelector } from "@libs/hooks";
+import { useGetPlaylistByEmailQuery } from "@services/playlistApi";
 import { useGetSongQuery } from "@services/songApi";
 import Link from "next/link";
 
 export default function Home() {
+  const { userInfo } = useAppSelector((state) => state.auth);
   const {
     data: songResponse,
     isLoading: songLoading,
@@ -17,7 +19,7 @@ export default function Home() {
     data: playlistResponse,
     isLoading: playlistLoading,
     isFetching: playlistFetching,
-  } = useGetPlaylistQuery();
+  } = useGetPlaylistByEmailQuery(userInfo.email);
 
   return (
     <div>
@@ -46,11 +48,12 @@ export default function Home() {
         {songLoading || songFetching ? (
           <Loading />
         ) : (
-          <TableSongs
-            title="Your songs"
+          <SongList
+            title="Latest songs"
+            singlePage={true}
             songs={
               songResponse && songResponse.result
-                ? songResponse.result.slice(0, 6)
+                ? songResponse.result.slice(0, 7)
                 : []
             }
           />

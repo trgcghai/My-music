@@ -12,7 +12,7 @@ const UploadSongModal = (props: DynamicModalProps) => {
   const [uploadFiles] = useUploadFilesMutation();
   const { open, title } = useAppSelector((state) => state.modal);
   const dragFileInputClassName =
-    "text-md flex h-[100px] cursor-pointer items-center justify-center gap-2 rounded-md border-0 bg-gray-800 p-3 text-lg text-white hover:bg-bgHover";
+    "text-md flex h-[100px] cursor-pointer items-center justify-center gap-2 rounded-md border-0 bg-gray-800 p-3 text-lg text-white hover:bg-bgColorSuperLight";
 
   const handleCancel = () => {
     setFiles([]);

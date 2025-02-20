@@ -6,7 +6,7 @@ import Toolbar from "./Toolbar";
 
 const PlayingController = () => {
   return (
-    <div className="flex h-20 items-center justify-between bg-bgDarkColor px-4 text-textColor">
+    <div className="bg-bgColorDark flex h-20 items-center justify-between px-4 text-textColor">
       <div className="flex w-1/5 items-center gap-2">
         <SongInfoCard name="fdsa" author="fds" />
       </div>

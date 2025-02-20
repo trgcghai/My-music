@@ -4,12 +4,16 @@
 
 :root {
   --bgColor: #121c21;
-  --bgDarkColor: #0e161a;
-  --bgLightColor: #19272e;
+  --bgColorDark: #0e161a;
+  --bgColorLight: #19272e;
+  --bgColorSuperLight: #374151;
   --textColor: #b9c4ca;
-  --textDark: #5a6a73;
+  --textColorDark: #5a6a73;
   --main: #1677ff;
-  --bgHover: rgb(55, 65, 81);
+}
+
+td.antd-table-cell {
+  border-bottom: none;
 }
 
 @layer utilities {

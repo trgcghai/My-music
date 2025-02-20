@@ -1,25 +1,17 @@
 "use client";
-import { useLazyGetSongByNameQuery } from "@services/songApi";
 import { Input } from "antd";
-import { FormEvent, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { FormEvent, useState } from "react";
 
 const SearchInput = () => {
+  const router = useRouter();
   const [search, setSearch] = useState("");
-  const [searchSongByName, { data }] = useLazyGetSongByNameQuery();
-
-  useEffect(() => {
-    if (data && data.code == 200 && data.status == "success") {
-      localStorage.setItem("searchResult", JSON.stringify(data.result));
-
-      // navigate to search result page which is not implemented yet
-    }
-  }, [data]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!search) return;
-    searchSongByName(search);
+    router.push(`/search?q=${encodeURIComponent(search)}`);
 
     setSearch("");
   };
@@ -30,7 +22,7 @@ const SearchInput = () => {
       <form onSubmit={handleSubmit}>
         <Input
           variant="outlined"
-          className="!h-[40px] !w-[500px] !rounded-lg !bg-bgLightColor !text-lg !text-textColor hover:border-main"
+          className="!bg-bgColorLight !h-[40px] !w-[500px] !rounded-lg !text-lg !text-textColor hover:border-main"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />

@@ -1,8 +1,8 @@
-import { Playlist, SongMetadata } from "./entity";
+import { Playlist, SongData } from "./entity";
 
 export interface SongResponse {
   code: number;
-  result: SongMetadata[];
+  result: SongData[];
   status: string;
 }
 
@@ -55,4 +55,10 @@ export interface UploadResponse {
     publicId: string;
     originalName: string;
   }[];
+}
+
+export interface DeletePlaylistResponse {
+  code: number;
+  result: object;
+  status: string;
 }

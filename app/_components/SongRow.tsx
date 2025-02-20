@@ -14,15 +14,15 @@ const SongRow = ({
   album: string;
 }) => {
   return (
-    <div className="flex cursor-pointer items-center justify-between rounded-md p-2 text-textDark hover:bg-bgLightColor">
-      <p className="flex-[3] border-r border-r-bgLightColor">{title}</p>
-      <p className="flex-1 border-r border-r-bgLightColor text-center">
+    <div className="text-textColorDark hover:bg-bgColorLight flex cursor-pointer items-center justify-between rounded-md p-2">
+      <p className="border-r-bgColorLight flex-[3] border-r">{title}</p>
+      <p className="border-r-bgColorLight flex-1 border-r text-center">
         {year}
       </p>
-      <p className="flex-1 border-r border-r-bgLightColor text-center">
+      <p className="border-r-bgColorLight flex-[2] border-r text-center">
         {artist}
       </p>
-      <p className="flex-[3] border-r border-r-bgLightColor text-center">
+      <p className="border-r-bgColorLight flex-[3] border-r text-center">
         {album}
       </p>
       <p className="flex-1 text-center">{formatSongLength(length)}</p>

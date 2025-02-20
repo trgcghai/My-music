@@ -19,4 +19,4 @@ export const songApi = rootApi.injectEndpoints({
   },
 });
 
-export const { useGetSongQuery, useLazyGetSongByNameQuery } = songApi;
+export const { useGetSongQuery, useGetSongByNameQuery } = songApi;

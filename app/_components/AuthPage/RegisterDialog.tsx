@@ -91,7 +91,7 @@ const RegisterDialog = ({ setCurrentModal, setDirection }) => {
   };
 
   return (
-    <div className="w-[500px] rounded-lg bg-bgLightColor p-8 text-textColor">
+    <div className="bg-bgColorLight w-[500px] rounded-lg p-8 text-textColor">
       <h2 className="text-center text-2xl font-bold text-textColor">
         Register
       </h2>
@@ -140,14 +140,14 @@ const RegisterDialog = ({ setCurrentModal, setDirection }) => {
         </Button>
       </form>
 
-      <Divider className="mb-5 !border-textDark text-sm !text-textColor">
+      <Divider className="!border-textColorDark mb-5 text-sm !text-textColor">
         Or
       </Divider>
 
       <Button
         icon={<GoogleIcon />}
         block
-        className="flex items-center justify-center bg-bgLightColor py-4 text-lg text-textColor"
+        className="bg-bgColorLight flex items-center justify-center py-4 text-lg text-textColor"
         loading={isGoogleLoading}
         disabled={isGoogleLoading}
         onClick={handleGoogleRegister}

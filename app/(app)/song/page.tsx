@@ -1,6 +1,7 @@
 "use client";
 import Loading from "@components/Loading";
-import TableSongs from "@components/TableSongs";
+import SearchInput from "@components/SearchInput";
+import SongList from "@components/TableSong/SongList";
 import { openModal } from "@libs/features/modal/modalSlice";
 import { useAppDispatch } from "@libs/hooks";
 import { AddCircleOutline } from "@mui/icons-material";
@@ -14,8 +15,9 @@ const Song = () => {
 
   return (
     <>
-      <div className="flex items-center justify-between">
-        <p className="text-xl font-bold">Your Songs</p>
+      <SearchInput />
+      <div className="flex items-center justify-between px-2">
+        <p className="text-xl font-bold">Latest Songs</p>
         <Button
           variant="filled"
           className="!flex !items-center !gap-4 !border-0 !bg-main !px-4 !py-5 !text-lg !font-bold !text-white"
@@ -29,14 +31,14 @@ const Song = () => {
           }}
         >
           <AddCircleOutline />
-          Upload your songs
+          Upload songs
         </Button>
       </div>
       <div className="no-scrollbar mt-2 h-[85%] space-y-4 overflow-scroll">
         {isFetching || isLoading ? (
           <Loading />
         ) : (
-          <TableSongs title="" canSeeAll={false} songs={data?.result || []} />
+          <SongList title="" canSeeAll={false} songs={data?.result || []} />
         )}
       </div>
     </>

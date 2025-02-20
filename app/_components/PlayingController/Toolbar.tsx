@@ -22,9 +22,9 @@ const Toolbar = () => {
       </div>
 
       <div className="flex items-center gap-4">
-        <span className="text-sm text-textDark">0:00</span>
+        <span className="text-textColorDark text-sm">0:00</span>
         <Progress percent={50} showInfo={false} />
-        <span className="text-sm text-textDark">3:00</span>
+        <span className="text-textColorDark text-sm">3:00</span>
       </div>
     </>
   );

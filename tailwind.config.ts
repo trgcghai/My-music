@@ -10,12 +10,12 @@ export default {
     extend: {
       colors: {
         bgColor: "var(--bgColor)",
-        bgLightColor: "var(--bgLightColor)",
-        bgDarkColor: "var(--bgDarkColor)",
+        bgColorLight: "var(--bgColorLight)",
+        bgColorDark: "var(--bgColorDark)",
         textColor: "var(--textColor)",
-        textDark: "var(--textDark)",
+        textColorDark: "var(--textColorDark)",
         main: "var(--main)",
-        bgHover: "var(--bgHover)",
+        bgColorSuperLight: "var(--bgColorSuperLight)",
       },
     },
   },

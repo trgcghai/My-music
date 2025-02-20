@@ -59,7 +59,7 @@ const DragFileInput = ({
           {files &&
             files.map((file) => (
               <p
-                className="cursor-default rounded-md bg-bgLightColor px-2 py-1 text-textColor"
+                className="bg-bgColorLight cursor-default rounded-md px-2 py-1 text-textColor"
                 key={file.name}
               >
                 {file.name}

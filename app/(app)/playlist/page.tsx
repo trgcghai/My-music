@@ -2,18 +2,20 @@
 import Loading from "@components/Loading";
 import PlaylistCard from "@components/PlaylistCard";
 import { openModal } from "@libs/features/modal/modalSlice";
-import { useAppDispatch } from "@libs/hooks";
+import { useAppDispatch, useAppSelector } from "@libs/hooks";
 import { AddCircleOutline } from "@mui/icons-material";
-import { useGetPlaylistQuery } from "@services/playlistApi";
+import { useGetPlaylistByEmailQuery } from "@services/playlistApi";
+import { getPlaylistLength } from "@utils/getPlaylistLength";
 import { ModalType } from "_types/component";
 import { Button } from "antd";
 
 const Playlist = () => {
+  const { userInfo } = useAppSelector((state) => state.auth);
   const {
     data,
     isLoading: getLoading,
     isFetching: getFetching,
-  } = useGetPlaylistQuery();
+  } = useGetPlaylistByEmailQuery(userInfo.email);
   const dispatch = useAppDispatch();
 
   return (
@@ -45,8 +47,9 @@ const Playlist = () => {
               <PlaylistCard
                 key={playlist._id}
                 id={playlist._id}
-                thumbnail={playlist.thumbnail}
                 title={playlist.name}
+                songCount={playlist.songs.length}
+                duration={getPlaylistLength(playlist.songs).toString()}
               />
             );
           })}
