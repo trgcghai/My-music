@@ -12,7 +12,7 @@ const MediaList = <T extends Playlist>({ playlist }: MediaListProps<T>) => {
           See all
         </Link>
       </div>
-      <div className="mt-2 grid grid-cols-2 items-center gap-6 p-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+      <div className="mt-2 grid grid-cols-2 items-center gap-6 p-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {playlist.map((playlist) => {
           return (
             <PlaylistCard

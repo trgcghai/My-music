@@ -1,6 +1,6 @@
 import Link from "next/link";
 import ContextMenu from "@components/ContextMenu/ContextMenu";
-import { SongData } from "_types/entity";
+import { SongData, SongInPlaylist } from "_types/entity";
 import { useContextMenu } from "@hooks/useContextMenu";
 import React from "react";
 import TableSongs from "./TableSongs";
@@ -8,7 +8,7 @@ import TableSongs from "./TableSongs";
 interface SongListProps {
   title: string;
   canSeeAll?: boolean;
-  songs: SongData[];
+  songs: SongData[] | SongInPlaylist[];
   singlePage?: boolean;
 }
 const SongList = ({
@@ -34,15 +34,17 @@ const SongList = ({
       </div>
 
       <TableSongs
-        songs={songs.map((song, index) => {
+        songs={songs.map((song: SongData | SongInPlaylist, index: number) => {
+          const data = "metadata" in song ? song.metadata.common : song.common;
+
           return {
             index: index + 1,
             id: song._id,
-            title: song.metadata.common.title,
-            year: song.metadata.common.year,
-            artist: song.metadata.common.artist,
-            album: song.metadata.common.album,
-            length: song.metadata.format.duration,
+            title: data.title,
+            year: data.year.toString() || "",
+            artist: data.artist,
+            album: data.album,
+            length: song.duration,
           };
         })}
         singlePage={singlePage}

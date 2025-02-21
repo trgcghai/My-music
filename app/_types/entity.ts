@@ -35,7 +35,7 @@ export interface SongData {
 export interface Playlist {
   _id: string;
   name: string;
-  songs: SongData[];
+  songs: SongInPlaylist[];
   owner: {
     _id: string;
     username: string;
@@ -43,4 +43,20 @@ export interface Playlist {
   thumbnail: string;
   createdAt: Date;
   lastModified: Date;
+}
+
+export interface SongInPlaylist {
+  _id: string;
+  originalName: string;
+  publicId: string;
+  url: string;
+  format: string;
+  duration: number;
+  common: {
+    title: string;
+    artists: string[];
+    artist: string;
+    album: string;
+    year: number;
+  };
 }

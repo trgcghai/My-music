@@ -6,6 +6,7 @@ import type { MenuProps } from "antd";
 import { useRouter } from "next/navigation";
 import { useDeletePlaylistMutation } from "@services/playlistApi";
 import Loading from "./Loading";
+import { formatTotalLength } from "@utils/formatSongLength";
 
 const { Title, Text } = Typography;
 
@@ -78,7 +79,9 @@ const PlaylistCard: React.FC<PlaylistCardProps> = ({
             {songCount} {songCount === 1 ? "song" : "songs"}
           </Text>
           <br />
-          <Text className="text-gray-300">{duration} total</Text>
+          <Text className="text-gray-300">
+            Total length: {formatTotalLength(parseFloat(duration))}
+          </Text>
         </div>
 
         <Dropdown

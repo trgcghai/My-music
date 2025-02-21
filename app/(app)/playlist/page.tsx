@@ -41,7 +41,7 @@ const Playlist = () => {
       {getLoading || getFetching ? (
         <Loading />
       ) : (
-        <div className="mt-6 grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+        <div className="mt-6 grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {(data?.result || []).map((playlist) => {
             return (
               <PlaylistCard

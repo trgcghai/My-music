@@ -19,6 +19,7 @@ export enum ModalType {
   DEFAULT = "DEFAULT",
   UPLOAD_SONG = "UPLOAD_SONG",
   CREATE_PLAYLIST = "CREATE_PLAYLIST",
+  ADD_TO_PLAYLIST = "ADD_TO_PLAYLIST",
 }
 
 export interface DynamicModalProps extends ModalProps {
@@ -28,4 +29,6 @@ export interface DynamicModalProps extends ModalProps {
   okButtonProps: ButtonProps;
   cancelText: string;
   cancelButtonProps: ButtonProps;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  additionalData?: any;
 }

@@ -23,13 +23,12 @@ export const useContextMenu = () => {
     };
   }, []);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleContextMenu = (event: React.MouseEvent, data: any) => {
+  const handleContextMenu = (event: React.MouseEvent, data: string) => {
     event.preventDefault();
     event.stopPropagation();
     setPosition({ x: event.clientX, y: event.clientY });
     setVisible(true);
-    setAdditionalData(data.id);
+    setAdditionalData(data);
   };
   return {
     visible,

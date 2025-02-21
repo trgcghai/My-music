@@ -3,6 +3,7 @@ import UploadSongModal from "./UploadSongModal";
 import CreatePlaylistModal from "./CreatePlaylistModal";
 import { useAppSelector } from "@libs/hooks";
 import { ConfigProvider } from "antd";
+import AddToPlaylistModal from "./AddToPlaylistModal";
 
 const DynamicModal = ({ type, ...props }: ModalProps) => {
   switch (type) {
@@ -10,6 +11,8 @@ const DynamicModal = ({ type, ...props }: ModalProps) => {
       return <UploadSongModal {...props} />;
     case "CREATE_PLAYLIST":
       return <CreatePlaylistModal {...props} />;
+    case "ADD_TO_PLAYLIST":
+      return <AddToPlaylistModal {...props} />;
     default:
       return null;
   }
