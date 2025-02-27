@@ -14,10 +14,10 @@ export const columns = [
     title: "Title",
     dataIndex: "title",
     key: "title",
-    width: 450,
+    width: 400,
     render: (text: string) => {
       return (
-        <p className="w-[450px] overflow-hidden truncate whitespace-nowrap">
+        <p className="w-[400px] overflow-hidden truncate whitespace-nowrap">
           {text}
         </p>
       );
@@ -33,7 +33,14 @@ export const columns = [
     title: "Artist",
     dataIndex: "artist",
     key: "artist",
-    width: 200,
+    width: 250,
+    render: (text: string) => {
+      return (
+        <p className="w-[250px] overflow-hidden truncate whitespace-nowrap">
+          {text}
+        </p>
+      );
+    },
   },
   {
     title: "Album",

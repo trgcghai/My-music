@@ -4,6 +4,8 @@ import CreatePlaylistModal from "./CreatePlaylistModal";
 import { useAppSelector } from "@libs/hooks";
 import { ConfigProvider } from "antd";
 import AddToPlaylistModal from "./AddToPlaylistModal";
+import UpdatePlaylistModal from "./UpdatePlaylistModal";
+import RemoveFromPlaylistModal from "./RemoveFromPlaylistModal";
 
 const DynamicModal = ({ type, ...props }: ModalProps) => {
   switch (type) {
@@ -11,8 +13,12 @@ const DynamicModal = ({ type, ...props }: ModalProps) => {
       return <UploadSongModal {...props} />;
     case "CREATE_PLAYLIST":
       return <CreatePlaylistModal {...props} />;
+    case "UPDATE_PLAYLIST":
+      return <UpdatePlaylistModal {...props} />;
     case "ADD_TO_PLAYLIST":
       return <AddToPlaylistModal {...props} />;
+    case "REMOVE_FROM_PLAYLIST":
+      return <RemoveFromPlaylistModal {...props} />;
     default:
       return null;
   }

@@ -19,8 +19,7 @@ const CreatePlaylistModal = (props: DynamicModalProps) => {
 
   const handleConfirm = async () => {
     if (!playlist) return;
-    const result = await createPlaylist({ playlist, userInfo }).unwrap();
-    console.log("create playlist result:", result);
+    await createPlaylist({ playlist, userInfo }).unwrap();
     setPlaylist("");
     dispatch(closeModal());
   };

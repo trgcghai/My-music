@@ -15,8 +15,13 @@ export const songApi = rootApi.injectEndpoints({
         },
         providesTags: [{ type: "Song" }],
       }),
+      getSongById: builder.query<SongResponse, string>({
+        query: (id: string) => `/song/${id}`,
+        providesTags: [{ type: "Song" }],
+      }),
     };
   },
 });
 
-export const { useGetSongQuery, useGetSongByNameQuery } = songApi;
+export const { useGetSongQuery, useGetSongByNameQuery, useGetSongByIdQuery } =
+  songApi;

@@ -5,12 +5,14 @@ interface ModalState {
   open: boolean;
   title: string;
   type: ModalType;
+  data: string | object | null;
 }
 
 const initialState: ModalState = {
   open: false,
   title: "",
   type: ModalType.DEFAULT,
+  data: null,
 };
 
 export const modalSlice = createSlice({
@@ -21,6 +23,7 @@ export const modalSlice = createSlice({
       state.open = true;
       state.title = action.payload.title;
       state.type = action.payload.type;
+      state.data = action.payload.data;
     },
     closeModal: () => {
       return initialState;

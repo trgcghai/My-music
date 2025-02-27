@@ -20,6 +20,8 @@ export enum ModalType {
   UPLOAD_SONG = "UPLOAD_SONG",
   CREATE_PLAYLIST = "CREATE_PLAYLIST",
   ADD_TO_PLAYLIST = "ADD_TO_PLAYLIST",
+  UPDATE_PLAYLIST = "UPDATE_PLAYLIST",
+  REMOVE_FROM_PLAYLIST = "REMOVE_FROM_PLAYLIST",
 }
 
 export interface DynamicModalProps extends ModalProps {
