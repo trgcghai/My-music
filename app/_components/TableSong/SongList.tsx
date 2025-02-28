@@ -33,23 +33,27 @@ const SongList = ({
         )}
       </div>
 
-      <TableSongs
-        songs={songs.map((song: SongData | SongInPlaylist, index: number) => {
-          const data = "metadata" in song ? song.metadata.common : song.common;
+      {songs && songs.length !== 0 && (
+        <TableSongs
+          songs={songs.map((song: SongData | SongInPlaylist, index: number) => {
+            const data =
+              "metadata" in song ? song.metadata.common : song.common;
 
-          return {
-            index: index + 1,
-            id: song._id,
-            title: data.title,
-            year: data.year.toString() || "",
-            artist: data.artist,
-            album: data.album,
-            length: song.duration,
-          };
-        })}
-        singlePage={singlePage}
-        handleContextMenu={handleContextMenu}
-      />
+            return {
+              index: index + 1,
+              id: song._id,
+              title: data.title,
+              year: data.year.toString() || "",
+              artist: data.artist,
+              album: data.album,
+              length: song.duration,
+              key: song._id,
+            };
+          })}
+          singlePage={singlePage}
+          handleContextMenu={handleContextMenu}
+        />
+      )}
 
       <div
         ref={menuRef}

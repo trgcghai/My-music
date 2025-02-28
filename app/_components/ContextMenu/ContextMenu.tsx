@@ -1,4 +1,5 @@
 import { openModal } from "@libs/features/modal/modalSlice";
+import { addToQueue } from "@libs/features/queue/queueSlice";
 import { useAppDispatch } from "@libs/hooks";
 import {
   AddCircleOutline,
@@ -39,7 +40,11 @@ const ContextMenu = ({ visible, additionalData }) => {
   const onClick: MenuProps["onClick"] = (e) => {
     switch (e.key) {
       case "play":
-        console.log("play this song");
+        dispatch(
+          addToQueue({
+            queue: [additionalData],
+          }),
+        );
         break;
       case "addToPlaylist":
         dispatch(

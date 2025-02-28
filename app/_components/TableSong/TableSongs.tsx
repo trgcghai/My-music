@@ -46,4 +46,5 @@ interface SongRowProps {
   artist: string;
   album: string;
   length: number;
+  key: string;
 }

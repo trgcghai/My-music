@@ -13,6 +13,7 @@ import {
 import storage from "redux-persist/lib/storage";
 import { modalSlice } from "./features/modal/modalSlice";
 import { authSlice } from "./features/auth/authSlice";
+import { queueSlice } from "./features/queue/queueSlice";
 
 const persistConfig = {
   key: "persist",
@@ -23,6 +24,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   modal: modalSlice.reducer,
   auth: authSlice.reducer,
+  queue: queueSlice.reducer,
   [rootApi.reducerPath]: rootApi.reducer,
 });
 

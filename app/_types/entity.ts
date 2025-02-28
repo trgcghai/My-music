@@ -5,9 +5,18 @@ export interface Song {
   isFavorite: boolean;
   length: number;
 }
-
 export interface SongData {
   _id: string;
+  originalName: string;
+  asset_id: string;
+  publicId: string;
+  url: string;
+  secure_url: string;
+  playback_url: string;
+  format: string;
+  duration: number;
+  buffer: Buffer;
+  mimetype: string;
   metadata: {
     format: {
       tagTypes: string[];
@@ -18,18 +27,20 @@ export interface SongData {
     };
     common: {
       title: string;
-      artist: string;
       artists: string[];
+      artist: string;
       album: string;
-      year: string;
+      year: number;
+      picture?: Array<{
+        format: string;
+        type: string;
+        description: string;
+        data: Uint8Array;
+      }>;
     };
   };
-  originalName: string;
-  size: number;
-  url: string;
-  publicId: string;
-  format: string;
-  duration: number;
+  createdAt: Date;
+  lastModified: Date;
 }
 
 export interface Playlist {

@@ -4,23 +4,25 @@ import { useAppDispatch, useAppSelector } from "@libs/hooks";
 import { AddCircleOutline } from "@mui/icons-material";
 import {
   useAddSongToPlaylistMutation,
-  useCreatePlaylistMutation,
+  useCreatePlaylistWithSongMutation,
   useGetPlaylistByEmailQuery,
 } from "@services/playlistApi";
 import { useGetSongByIdQuery } from "@services/songApi";
 import { DynamicModalProps } from "_types/component";
 import { Playlist } from "_types/entity";
-import { Button, Checkbox, CheckboxChangeEvent, Modal } from "antd";
+import { Button, Checkbox, CheckboxChangeEvent, Divider, Modal } from "antd";
 import { useEffect, useState } from "react";
 
 const PlaylistCheckbox = ({
   setSelectedPlaylists,
   selectedPlaylists,
   playlist,
+  disabled,
 }: {
   setSelectedPlaylists: (value: string[]) => void;
   selectedPlaylists: string[];
   playlist: Playlist;
+  disabled: boolean;
 }) => {
   const [checked, setChecked] = useState<boolean>();
   const { data } = useAppSelector((state) => state.modal);
@@ -30,6 +32,8 @@ const PlaylistCheckbox = ({
   }, [data.songId, playlist.songs]);
 
   const handleOnChange = (e: CheckboxChangeEvent) => {
+    if (disabled) return;
+
     setChecked(e.target.checked);
 
     if (e.target.checked) {
@@ -44,7 +48,7 @@ const PlaylistCheckbox = ({
   return (
     <Checkbox
       checked={checked}
-      className="text-lg text-textColor"
+      className={`text-lg text-textColor`}
       onChange={handleOnChange}
     >
       {playlist.name}
@@ -63,18 +67,20 @@ const AddToPlaylistModal = (props: DynamicModalProps) => {
     isFetching: fetchingPlaylist,
   } = useGetPlaylistByEmailQuery(userInfo.email);
   const [addSongToPlaylist] = useAddSongToPlaylistMutation();
-  const [createPlaylist] = useCreatePlaylistMutation();
+  const [createPlaylistWithSong] = useCreatePlaylistWithSongMutation();
   const { data: songData } = useGetSongByIdQuery(data.songId);
 
   const handleCreatePlaylistWithSong = async () => {
-    console.log("songData", songData.result[0]);
     const title = songData.result[0].metadata.common.title;
-    const createResult = await createPlaylist({
+    const createResult = await createPlaylistWithSong({
       playlist: title,
       userInfo,
+      songId: data.songId,
     }).unwrap();
 
     console.log(createResult);
+
+    dispatch(closeModal());
   };
 
   const handleConfirm = async () => {
@@ -104,15 +110,8 @@ const AddToPlaylistModal = (props: DynamicModalProps) => {
       onOk={handleConfirm}
       onCancel={handleCancel}
     >
-      <Button
-        className="my-4 w-full border-0 bg-main text-lg text-white hover:!bg-bgColorSuperLight"
-        onClick={() => handleCreatePlaylistWithSong()}
-      >
-        <AddCircleOutline></AddCircleOutline>
-        Create new playlist with this song
-      </Button>
       {(fetchingPlaylist || loadingPlaylist) && <Loading />}
-      <div className="flex flex-col items-start gap-2">
+      <div className="my-4 flex flex-col items-start gap-2">
         {playlistData?.result &&
           playlistData?.result.length > 0 &&
           playlistData?.result.map((playlist) => {
@@ -122,10 +121,25 @@ const AddToPlaylistModal = (props: DynamicModalProps) => {
                 playlist={playlist}
                 setSelectedPlaylists={setSelectedPlaylists}
                 selectedPlaylists={selectedPlaylists}
+                disabled={playlist.songs
+                  .map((song) => song._id)
+                  .includes(data.songId)}
               />
             );
           })}
       </div>
+      <Divider
+        style={{ borderColor: "var(--textColor)", color: "var(--textColor)" }}
+      >
+        Or
+      </Divider>
+      <Button
+        className="my-4 w-full border-0 bg-main text-lg text-white hover:!bg-bgColorSuperLight"
+        onClick={() => handleCreatePlaylistWithSong()}
+      >
+        <AddCircleOutline></AddCircleOutline>
+        Create new playlist with this song
+      </Button>
     </Modal>
   );
 };

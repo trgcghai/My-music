@@ -70,6 +70,16 @@ export const playlistApi = rootApi.injectEndpoints({
       },
       invalidatesTags: [{ type: "Playlist" }],
     }),
+    createPlaylistWithSong: builder.mutation({
+      query: ({ playlist, userInfo, songId }) => {
+        return {
+          url: `/playlist/createPlaylistWithSong`,
+          method: "POST",
+          body: { playlist, userInfo, songId },
+        };
+      },
+      invalidatesTags: [{ type: "Playlist" }],
+    }),
   }),
 });
 
@@ -82,4 +92,5 @@ export const {
   useAddSongToPlaylistMutation,
   useUpdatePlaylistMutation,
   useRemoveSongFromPlaylistMutation,
+  useCreatePlaylistWithSongMutation,
 } = playlistApi;

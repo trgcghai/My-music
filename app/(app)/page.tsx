@@ -32,12 +32,9 @@ export default function Home() {
           <MediaList playlist={playlistResponse?.result.slice(0, 6) || []} />
         )}
         {playlistResponse?.result.length == 0 && (
-          <p className="mt-4 px-2 text-center text-lg font-bold">
-            You have no playlist yet.{" "}
-            <Link
-              href={"/playlist"}
-              className="cursor-pointer text-main hover:underline"
-            >
+          <p className="my-4 text-center text-lg text-textColorDark">
+            You have no playlist yet !{" "}
+            <Link href={"/playlist"} className="cursor-pointer text-main">
               Create new here
             </Link>
           </p>
@@ -59,12 +56,9 @@ export default function Home() {
           />
         )}
         {songResponse?.result.length == 0 && (
-          <p className="mt-4 px-2 text-center text-lg font-bold">
-            You have no song yet.{" "}
-            <Link
-              href={"/song"}
-              className="cursor-pointer text-main hover:underline"
-            >
+          <p className="my-4 text-center text-lg text-textColorDark">
+            You have no song yet !{" "}
+            <Link href={"/song"} className="cursor-pointer text-main">
               Upload now
             </Link>
           </p>
