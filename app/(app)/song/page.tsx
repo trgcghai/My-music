@@ -3,7 +3,7 @@ import Loading from "@components/Loading";
 import SearchInput from "@components/SearchInput";
 import SongList from "@components/TableSong/SongList";
 import { openModal } from "@libs/features/modal/modalSlice";
-import { useAppDispatch } from "@libs/hooks";
+import { useAppDispatch } from "@hooks/hooks";
 import { AddCircleOutline } from "@mui/icons-material";
 import { useGetSongQuery } from "@services/songApi";
 import { ModalType } from "_types/component";

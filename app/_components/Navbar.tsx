@@ -1,6 +1,6 @@
 "use client";
 import { signOut } from "@libs/features/auth/authSlice";
-import { useAppDispatch } from "@libs/hooks";
+import { useAppDispatch } from "@hooks/hooks";
 import {
   Audiotrack,
   HomeRounded,
@@ -51,7 +51,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-bgColorLight flex flex-1 flex-col items-start gap-2 p-4 capitalize text-textColor">
+    <div className="flex flex-1 flex-col items-start gap-2 bg-bgColorLight p-4 capitalize text-textColor">
       <div className="w-full space-y-2">
         <NavbarItem href="/" icon={<HomeRounded />} content="Home" />
         <NavbarItem

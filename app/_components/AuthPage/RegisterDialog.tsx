@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { RegisterFormData } from "_types/component";
 import { useRegisterMutation } from "@services/rootApi";
-import { useGoogleRegister } from "@libs/hooks";
+import { useGoogleRegister } from "@hooks/hooks";
 
 const message: string =
   "Password must have at least 1 lowercase character, 1 uppercase character, 1 numeric character, and 1 special character.";
@@ -91,7 +91,7 @@ const RegisterDialog = ({ setCurrentModal, setDirection }) => {
   };
 
   return (
-    <div className="bg-bgColorLight w-[500px] rounded-lg p-8 text-textColor">
+    <div className="w-[500px] rounded-lg bg-bgColorLight p-8 text-textColor">
       <h2 className="text-center text-2xl font-bold text-textColor">
         Register
       </h2>
@@ -140,14 +140,14 @@ const RegisterDialog = ({ setCurrentModal, setDirection }) => {
         </Button>
       </form>
 
-      <Divider className="!border-textColorDark mb-5 text-sm !text-textColor">
+      <Divider className="mb-5 !border-textColorDark text-sm !text-textColor">
         Or
       </Divider>
 
       <Button
         icon={<GoogleIcon />}
         block
-        className="bg-bgColorLight flex items-center justify-center py-4 text-lg text-textColor"
+        className="flex items-center justify-center bg-bgColorLight py-4 text-lg text-textColor"
         loading={isGoogleLoading}
         disabled={isGoogleLoading}
         onClick={handleGoogleRegister}

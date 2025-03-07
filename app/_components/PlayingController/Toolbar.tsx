@@ -7,7 +7,7 @@ import {
   toggleShuffle,
   toogleLoop,
 } from "@libs/features/queue/queueSlice";
-import { useAppDispatch, useAppSelector } from "@libs/hooks";
+import { useAppDispatch, useAppSelector } from "@hooks/hooks";
 import {
   Pause,
   PlayArrow,

@@ -8,7 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginFormData } from "_types/component";
 import { useLoginMutation } from "@services/rootApi";
 import { useRouter } from "next/navigation";
-import { useAppDispatch, useGoogleLogin } from "@libs/hooks";
+import { useAppDispatch, useGoogleLogin } from "@hooks/hooks";
 import { signIn } from "@libs/features/auth/authSlice";
 
 const message: string =
@@ -104,7 +104,7 @@ const LoginDialog = () => {
   };
 
   return (
-    <div className="bg-bgColorLight w-[500px] rounded-lg p-8 text-textColor">
+    <div className="w-[500px] rounded-lg bg-bgColorLight p-8 text-textColor">
       <h2 className="text-center text-2xl font-bold text-textColor">Login</h2>
       <div className="mb-5 text-center text-textColor">
         Don&apos;t have an account?
@@ -136,13 +136,13 @@ const LoginDialog = () => {
           Login
         </Button>
       </form>
-      <Divider className="!border-textColorDark mb-5 text-sm !text-textColor">
+      <Divider className="mb-5 !border-textColorDark text-sm !text-textColor">
         Or
       </Divider>
       <Button
         icon={<GoogleIcon />}
         block
-        className="bg-bgColorLight flex items-center justify-center py-4 text-lg text-textColor"
+        className="flex items-center justify-center bg-bgColorLight py-4 text-lg text-textColor"
         onClick={handleGoogleLogin}
       >
         Continue with Google

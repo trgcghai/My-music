@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SongList from "@components/TableSong/SongList";
 import { formatTotalLength } from "@utils/formatSongLength";
-import { useAppDispatch } from "@libs/hooks";
+import { useAppDispatch } from "@hooks/hooks";
 import { openModal } from "@libs/features/modal/modalSlice";
 import { ModalType } from "_types/component";
 

@@ -2,7 +2,7 @@
 import Loading from "@components/Loading";
 import PlaylistCard from "@components/PlaylistCard";
 import { openModal } from "@libs/features/modal/modalSlice";
-import { useAppDispatch, useAppSelector } from "@libs/hooks";
+import { useAppDispatch, useAppSelector } from "@hooks/hooks";
 import { AddCircleOutline } from "@mui/icons-material";
 import { useGetPlaylistByEmailQuery } from "@services/playlistApi";
 import { getPlaylistLength } from "@utils/getPlaylistLength";

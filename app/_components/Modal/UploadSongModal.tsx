@@ -1,6 +1,6 @@
 import DragFileInput from "@components/DragFileInput";
 import { closeModal } from "@libs/features/modal/modalSlice";
-import { useAppDispatch, useAppSelector } from "@libs/hooks";
+import { useAppDispatch, useAppSelector } from "@hooks/hooks";
 import { useUploadFilesMutation } from "@services/rootApi";
 import { DynamicModalProps } from "_types/component";
 import { Modal } from "antd";

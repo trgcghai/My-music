@@ -3,7 +3,7 @@ import Loading from "@components/Loading";
 import MediaList from "@components/MediaList";
 import SearchInput from "@components/SearchInput";
 import SongList from "@components/TableSong/SongList";
-import { useAppSelector } from "@libs/hooks";
+import { useAppSelector } from "@hooks/hooks";
 import { useGetPlaylistByEmailQuery } from "@services/playlistApi";
 import { useGetSongQuery } from "@services/songApi";
 import Link from "next/link";

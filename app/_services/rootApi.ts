@@ -1,11 +1,5 @@
-import { signOut, updateTokens } from "@libs/features/auth/authSlice";
-import { RootState } from "@libs/store";
-import {
-  BaseQueryApi,
-  createApi,
-  FetchArgs,
-  fetchBaseQuery,
-} from "@reduxjs/toolkit/query/react";
+import { baseQueryWithReauth } from "@libs/redux/baseQueryConfig";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import {
   AuthResponse,
   RefreshTokenResponse,
@@ -14,51 +8,6 @@ import {
   VerifyTokenResponse,
 } from "_types/api";
 import { LoginFormData, RegisterFormData } from "_types/component";
-
-const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL,
-  prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootState).auth.accessToken;
-    if (token) {
-      headers.set("authorization", `Bearer ${token}`);
-    }
-    return headers;
-  },
-});
-
-const baseQueryWithReauth = async (
-  args: string | FetchArgs,
-  api: BaseQueryApi,
-  extraOptions: object,
-) => {
-  let result = await baseQuery(args, api, extraOptions);
-  if (result?.error?.status === 401) {
-    try {
-      const refreshResult = await baseQuery(
-        "/auth/refresh-token",
-        api,
-        extraOptions,
-      );
-
-      if (refreshResult?.data) {
-        const { accessToken, refreshToken } =
-          refreshResult?.data as RefreshTokenResponse;
-
-        api.dispatch(updateTokens({ accessToken, refreshToken }));
-
-        result = await baseQuery(args, api, extraOptions);
-      } else {
-        api.dispatch(signOut());
-        throw refreshResult.error;
-      }
-    } catch (error) {
-      api.dispatch(signOut());
-      window.location.href = "/login";
-      return { error };
-    }
-  }
-  return result;
-};
 
 export const rootApi = createApi({
   reducerPath: "rootApi",

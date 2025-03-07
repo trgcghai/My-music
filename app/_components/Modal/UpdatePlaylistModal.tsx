@@ -1,5 +1,5 @@
 import { closeModal } from "@libs/features/modal/modalSlice";
-import { useAppDispatch, useAppSelector } from "@libs/hooks";
+import { useAppDispatch, useAppSelector } from "@hooks/hooks";
 import { useUpdatePlaylistMutation } from "@services/playlistApi";
 import { DynamicModalProps } from "_types/component";
 import { Input, Modal } from "antd";

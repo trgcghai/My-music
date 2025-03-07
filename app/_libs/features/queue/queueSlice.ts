@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { shuffleFromIndex } from "@utils/shuffleFromIndex";
 
 interface QueueState {
   queue: string[];
@@ -32,6 +33,7 @@ export const queueSlice = createSlice({
     },
     toggleShuffle: (state) => {
       state.shuffle = !state.shuffle;
+      state.queue = shuffleFromIndex(state.queue, state.currentIndex + 1);
     },
     toogleLoop: (state) => {
       if (state.loop === "none") {
@@ -58,10 +60,13 @@ export const queueSlice = createSlice({
       if (state.loop === "one") {
         return;
       }
-      if (state.shuffle) {
-        state.currentIndex = Math.floor(Math.random() * state.queue.length);
+      if (
+        state.loop === "all" &&
+        state.currentIndex === state.queue.length - 1
+      ) {
+        state.currentIndex = 0;
       } else {
-        state.currentIndex = (state.currentIndex + 1) % state.queue.length;
+        state.currentIndex = state.currentIndex + 1;
       }
       state.status = "playing";
     },
@@ -69,11 +74,10 @@ export const queueSlice = createSlice({
       if (state.loop === "one") {
         return;
       }
-      if (state.shuffle) {
-        state.currentIndex = Math.floor(Math.random() * state.queue.length);
+      if (state.loop === "all" && state.currentIndex === 0) {
+        state.currentIndex = state.queue.length - 1;
       } else {
-        state.currentIndex =
-          (state.currentIndex - 1 + state.queue.length) % state.queue.length;
+        state.currentIndex = state.currentIndex - 1;
       }
       state.status = "playing";
     },

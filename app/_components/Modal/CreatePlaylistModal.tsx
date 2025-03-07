@@ -1,5 +1,5 @@
 import { closeModal } from "@libs/features/modal/modalSlice";
-import { useAppDispatch, useAppSelector } from "@libs/hooks";
+import { useAppDispatch, useAppSelector } from "@hooks/hooks";
 import { useCreatePlaylistMutation } from "@services/playlistApi";
 import { DynamicModalProps } from "_types/component";
 import { Input, Modal } from "antd";
@@ -34,7 +34,7 @@ const CreatePlaylistModal = (props: DynamicModalProps) => {
     >
       <p className="mb-1 text-lg text-textColor">Name your playlist</p>
       <Input
-        className="!bg-bgColorLight !h-[40px] !rounded-lg !text-lg !text-textColor hover:border-main"
+        className="!h-[40px] !rounded-lg !bg-bgColorLight !text-lg !text-textColor hover:border-main"
         value={playlist}
         onChange={(e) => setPlaylist(e.target.value)}
       />

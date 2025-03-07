@@ -1,10 +1,11 @@
 import { openModal } from "@libs/features/modal/modalSlice";
 import { addToQueue } from "@libs/features/queue/queueSlice";
-import { useAppDispatch } from "@libs/hooks";
+import { useAppDispatch, useAppSelector } from "@hooks/hooks";
 import {
   AddCircleOutline,
   DeleteOutline,
   PlayArrow,
+  PlaylistAdd,
 } from "@mui/icons-material";
 import { ModalType } from "_types/component";
 import { ConfigProvider, Menu, MenuProps } from "antd";
@@ -17,6 +18,12 @@ const items: MenuItem[] = [
     key: "play",
     label: "Play this song",
     icon: <PlayArrow />,
+    className: "text-[16px]",
+  },
+  {
+    key: "addToQueue",
+    label: "Add to queue",
+    icon: <PlaylistAdd />,
     className: "text-[16px]",
   },
   {
@@ -37,12 +44,21 @@ const items: MenuItem[] = [
 const ContextMenu = ({ visible, additionalData }) => {
   const dispatch = useAppDispatch();
   const path = usePathname();
+  const { queue } = useAppSelector((state) => state.queue);
+
   const onClick: MenuProps["onClick"] = (e) => {
     switch (e.key) {
       case "play":
         dispatch(
           addToQueue({
-            queue: [additionalData],
+            queue: [additionalData, ...queue],
+          }),
+        );
+        break;
+      case "addToQueue":
+        dispatch(
+          addToQueue({
+            queue: [...queue, additionalData],
           }),
         );
         break;

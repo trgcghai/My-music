@@ -1,7 +1,7 @@
 import { ButtonProps, LegacyButtonType } from "antd/es/button/button";
 import UploadSongModal from "./UploadSongModal";
 import CreatePlaylistModal from "./CreatePlaylistModal";
-import { useAppSelector } from "@libs/hooks";
+import { useAppSelector } from "@hooks/hooks";
 import { ConfigProvider } from "antd";
 import AddToPlaylistModal from "./AddToPlaylistModal";
 import UpdatePlaylistModal from "./UpdatePlaylistModal";
