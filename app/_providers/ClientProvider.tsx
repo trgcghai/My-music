@@ -14,7 +14,7 @@ const ClientProvider = ({
   children: React.ReactNode;
 }>) => {
   const router = useRouter();
-  const { data, isLoading, isError, error } = useVerifyTokenQuery();
+  const { isLoading, isError, error } = useVerifyTokenQuery();
 
   const handleRedirect = useCallback(() => {
     router.push("/login");
@@ -24,7 +24,7 @@ const ClientProvider = ({
     if (isError && "status" in error && error.status == 401) {
       handleRedirect();
     }
-  }, [data, error, isError, handleRedirect]);
+  }, [error, isError, handleRedirect]);
 
   if (isLoading) {
     return <Loading />;

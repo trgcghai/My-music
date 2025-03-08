@@ -8,8 +8,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginFormData } from "_types/component";
 import { useLoginMutation } from "@services/rootApi";
 import { useRouter } from "next/navigation";
-import { useAppDispatch, useGoogleLogin } from "@hooks/hooks";
+import { useAppDispatch } from "@hooks/hooks";
 import { signIn } from "@libs/features/auth/authSlice";
+import { useGoogleLogin } from "@hooks/useGoogleLogin";
 
 const message: string =
   "Password must have at least 1 lowercase character, 1 uppercase character, 1 numeric character, and 1 special character.";
@@ -62,16 +63,11 @@ const LoginDialog = () => {
     if (data.code == 200 && data.status == "success") {
       const {
         data: {
-          accessToken,
-          refreshToken,
           userInfo: { email, username },
         },
       } = data;
       dispatch(
         signIn({
-          accessToken,
-          refreshToken,
-          isAuthenticated: true,
           userInfo: {
             email,
             username,

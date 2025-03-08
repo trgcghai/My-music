@@ -78,14 +78,11 @@ export const rootApi = createApi({
       verifyToken: builder.query<VerifyTokenResponse, void>({
         query: () => "/auth/verify-token",
       }),
-      refreshToken: builder.mutation<RefreshTokenResponse, string>({
-        query: (refreshToken: string) => {
+      refreshToken: builder.mutation<RefreshTokenResponse, void>({
+        query: () => {
           return {
             url: "/auth/refresh-token",
             method: "POST",
-            body: {
-              refreshToken,
-            },
           };
         },
       }),

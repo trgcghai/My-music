@@ -18,8 +18,6 @@ export interface AuthResponse {
   message: string;
   status: string;
   data?: {
-    accessToken: string;
-    refreshToken: string;
     userInfo: {
       email: string;
       username: string;
@@ -37,15 +35,14 @@ export interface VerifyTokenResponse {
   status: string;
   code: number;
   message: string;
-  userInfo?: object;
+  error?: Error,
+  result?: object,
 }
 
 export interface RefreshTokenResponse {
   status: string;
   code: number;
   message: string;
-  accessToken?: string;
-  refreshToken?: string;
 }
 
 export interface UploadResponse {
