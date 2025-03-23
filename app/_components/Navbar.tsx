@@ -11,6 +11,7 @@ import { Button } from "antd";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ReactNode } from "react";
+import { useSignOutMutation } from "@services/rootApi";
 
 const NavbarItem = ({
   href = "",
@@ -45,7 +46,9 @@ const NavbarItem = ({
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const handleLogout = () => {
+  const [logOut] = useSignOutMutation()
+  const handleLogout = async () => {
+    await logOut().unwrap()
     dispatch(signOut());
     router.push("/login");
   };

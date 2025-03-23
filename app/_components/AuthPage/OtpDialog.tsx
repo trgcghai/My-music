@@ -23,15 +23,11 @@ const OtpDialog = () => {
       console.log("data check in OtpDialog", data);
       const {
         data: {
-          accessToken,
-          refreshToken,
           userInfo: { email, username },
         },
       } = data;
       dispatch(
         signIn({
-          accessToken,
-          refreshToken,
           isAuthenticated: true,
           userInfo: {
             email,

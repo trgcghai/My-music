@@ -86,6 +86,14 @@ export const rootApi = createApi({
           };
         },
       }),
+      signOut: builder.mutation<AuthResponse, void>({
+        query: () => {
+          return {
+            url: "/auth/logout",
+            method: "POST",
+          };
+        },
+      })
     };
   },
 });
@@ -98,4 +106,5 @@ export const {
   useUploadFilesMutation,
   useVerifyTokenQuery,
   useRefreshTokenMutation,
+  useSignOutMutation,
 } = rootApi;

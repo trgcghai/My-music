@@ -7,7 +7,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { RegisterFormData } from "_types/component";
 import { useRegisterMutation } from "@services/rootApi";
-import { useGoogleRegister } from "@hooks/hooks";
+import { useGoogleRegister } from "@hooks/useGoogleRegister";
+import { useAppDispatch } from "@hooks/hooks";
+import { saveUserInfo } from "@libs/features/auth/authSlice";
 
 const message: string =
   "Password must have at least 1 lowercase character, 1 uppercase character, 1 numeric character, and 1 special character.";
@@ -51,6 +53,7 @@ const RegisterDialog = ({ setCurrentModal, setDirection }) => {
     data: googleData,
     isLoading: isGoogleLoading,
   } = useGoogleRegister();
+  const dispatch = useAppDispatch();
 
   const onSubmit = async (formData: RegisterFormData) => {
     try {
@@ -63,6 +66,12 @@ const RegisterDialog = ({ setCurrentModal, setDirection }) => {
       if (data.code == 200 && data.status == "success") {
         setCurrentModal(1);
         setDirection(1);
+        dispatch(
+          saveUserInfo({
+            email: formData.email,
+            username: formData.username,
+          }),
+        );
       }
     } catch (error) {
       if (error.data.error.code == 11000) {
