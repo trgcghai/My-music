@@ -93,7 +93,18 @@ export const rootApi = createApi({
             method: "POST",
           };
         },
-      })
+      }),
+      loginGoogle: builder.mutation<AuthResponse, object>({
+        query: (user) => {
+          return {
+            url: "/auth/google-login",
+            method: "POST",
+            body: {
+              user,
+            },
+          };
+        },
+      }),
     };
   },
 });
@@ -107,4 +118,5 @@ export const {
   useVerifyTokenQuery,
   useRefreshTokenMutation,
   useSignOutMutation,
+  useLoginGoogleMutation,
 } = rootApi;

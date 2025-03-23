@@ -23,15 +23,15 @@ const OtpDialog = () => {
       console.log("data check in OtpDialog", data);
       const {
         data: {
-          userInfo: { email, username },
+          userInfo: { email, username, avatar },
         },
       } = data;
       dispatch(
         signIn({
-          isAuthenticated: true,
           userInfo: {
             email,
             username,
+            avatar,
           },
         }),
       );

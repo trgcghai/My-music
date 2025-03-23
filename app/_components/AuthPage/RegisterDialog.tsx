@@ -1,5 +1,4 @@
-import { Button, Divider } from "antd";
-import GoogleIcon from "@mui/icons-material/Google";
+import { Button } from "antd";
 import Link from "next/link";
 import FormSection from "./FormSection";
 import * as yup from "yup";
@@ -7,7 +6,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { RegisterFormData } from "_types/component";
 import { useRegisterMutation } from "@services/rootApi";
-import { useGoogleRegister } from "@hooks/useGoogleRegister";
 import { useAppDispatch } from "@hooks/hooks";
 import { saveUserInfo } from "@libs/features/auth/authSlice";
 
@@ -48,11 +46,6 @@ const RegisterDialog = ({ setCurrentModal, setDirection }) => {
     },
   });
   const [register, { isLoading }] = useRegisterMutation();
-  const {
-    signInGooglePopup,
-    data: googleData,
-    isLoading: isGoogleLoading,
-  } = useGoogleRegister();
   const dispatch = useAppDispatch();
 
   const onSubmit = async (formData: RegisterFormData) => {
@@ -80,22 +73,6 @@ const RegisterDialog = ({ setCurrentModal, setDirection }) => {
           message: "Email already exists ! Chose another email",
         });
       }
-    }
-  };
-
-  const handleGoogleRegister = async () => {
-    // handle google register
-    await signInGooglePopup();
-
-    console.log(googleData);
-    const {
-      data: { status, code },
-    } = googleData;
-
-    if (status == "success" && code == 200) {
-      console.log("Google register success");
-      setCurrentModal(1);
-      setDirection(1);
     }
   };
 
@@ -148,21 +125,6 @@ const RegisterDialog = ({ setCurrentModal, setDirection }) => {
           Register
         </Button>
       </form>
-
-      <Divider className="mb-5 !border-textColorDark text-sm !text-textColor">
-        Or
-      </Divider>
-
-      <Button
-        icon={<GoogleIcon />}
-        block
-        className="flex items-center justify-center bg-bgColorLight py-4 text-lg text-textColor"
-        loading={isGoogleLoading}
-        disabled={isGoogleLoading}
-        onClick={handleGoogleRegister}
-      >
-        Continue with Google
-      </Button>
     </div>
   );
 };

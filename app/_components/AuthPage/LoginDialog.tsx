@@ -6,11 +6,12 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginFormData } from "_types/component";
-import { useLoginMutation } from "@services/rootApi";
+import { useLoginGoogleMutation, useLoginMutation } from "@services/rootApi";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@hooks/hooks";
 import { signIn } from "@libs/features/auth/authSlice";
-import { useGoogleLogin } from "@hooks/useGoogleLogin";
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "@libs/firebase/config";
 
 const message: string =
   "Password must have at least 1 lowercase character, 1 uppercase character, 1 numeric character, and 1 special character.";
@@ -43,7 +44,7 @@ const LoginDialog = () => {
     },
   });
   const [login, { isLoading }] = useLoginMutation();
-  const { loginGooglePopup, data: googleData } = useGoogleLogin();
+  const [loginGoogle] = useLoginGoogleMutation();
 
   const onSubmit = async (formData: LoginFormData) => {
     const { data, error } = await login(formData);
@@ -84,18 +85,34 @@ const LoginDialog = () => {
   // };
 
   const handleGoogleLogin = async () => {
-    // Google login logic placeholder
-    await loginGooglePopup();
+    try {
+      const result = await signInWithPopup(auth, provider);
 
-    console.log(googleData);
-    const {
-      data: { status, code },
-    } = googleData;
+      console.log(result);
 
-    if (status == "success" && code == 200) {
-      console.log("Google register success");
-      // setCurrentModal(1);
-      // setDirection(1);
+      const user = result.user;
+
+      const { data } = await loginGoogle(user);
+
+      if (data.status == "success" && data.code == 200) {
+        const {
+          data: {
+            userInfo: { email, username, avatar },
+          },
+        } = data;
+        dispatch(
+          signIn({
+            userInfo: {
+              email,
+              username,
+              avatar,
+            },
+          }),
+        );
+        router.push("/");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

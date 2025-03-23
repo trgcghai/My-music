@@ -5,6 +5,7 @@ interface AuthState {
   userInfo: {
     email: string;
     username: string;
+    avatar: string;
   };
 }
 
@@ -13,6 +14,7 @@ const initialState: AuthState = {
   userInfo: {
     email: "",
     username: "",
+    avatar: "",
   },
 };
 
@@ -33,6 +35,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { signIn, signOut, saveUserInfo } =
-  authSlice.actions;
+export const { signIn, signOut, saveUserInfo } = authSlice.actions;
 export default authSlice.reducer;

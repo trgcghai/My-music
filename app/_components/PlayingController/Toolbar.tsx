@@ -79,15 +79,17 @@ const Toolbar = () => {
         </div>
       </div>
 
-      <div className="flex items-center gap-4">
-        <span className="text-sm text-textColorDark">0:00</span>
-        <Progress percent={50} showInfo={false} />
-        <span className="text-sm text-textColorDark">
-          {formatSongLength(data?.result[0]?.duration)}
+      <div className="flex items-center gap-2">
+        <span className="flex-1 text-sm text-textColorDark">{"-:--"}</span>
+        <Progress percent={50} showInfo={false} className="flex-[8]" />
+        <span className="flex-1 text-sm text-textColorDark">
+          {formatSongLength(data?.result[0]?.duration) == "NaN:NaN"
+            ? "-:--"
+            : formatSongLength(data?.result[0]?.duration)}
         </span>
         <ReactHowler
-          key={data?.result[0]?._id}
-          src={data?.result[0]?.url || ""}
+          key={data?.result[0]?._id || ""}
+          src={data?.result[0]?.url || [""]}
           playing={status === "playing"}
           volume={volume / 100}
           mute={muted}

@@ -21,6 +21,7 @@ export interface AuthResponse {
     userInfo: {
       email: string;
       username: string;
+      avatar: string;
     };
   };
 }
@@ -35,8 +36,8 @@ export interface VerifyTokenResponse {
   status: string;
   code: number;
   message: string;
-  error?: Error,
-  result?: object,
+  error?: Error;
+  result?: object;
 }
 
 export interface RefreshTokenResponse {
