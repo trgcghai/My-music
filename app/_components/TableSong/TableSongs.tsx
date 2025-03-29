@@ -1,5 +1,6 @@
 import { Table, ConfigProvider } from "antd";
 import { columns, tableThemeConfig } from "./config";
+import { SongRowProps } from "_types/component";
 
 const TableSongs = ({
   singlePage,
@@ -19,7 +20,7 @@ const TableSongs = ({
         onRow={(record) => {
           return {
             onContextMenu: (event) => {
-              handleContextMenu(event, record.id);
+              handleContextMenu(event, record);
             },
           };
         }}
@@ -34,17 +35,5 @@ export default TableSongs;
 interface TableSongProps {
   singlePage: boolean;
   songs: SongRowProps[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  handleContextMenu: (event: React.MouseEvent, data: any) => void;
-}
-
-interface SongRowProps {
-  index: number;
-  id: string;
-  title: string;
-  year: string;
-  artist: string;
-  album: string;
-  length: number;
-  key: string;
+  handleContextMenu: (event: React.MouseEvent, data: SongRowProps) => void;
 }

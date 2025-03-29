@@ -34,3 +34,23 @@ export interface DynamicModalProps extends ModalProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   additionalData?: any;
 }
+
+export interface SongRowProps {
+  index: number;
+  id: string;
+  title: string;
+  year: string;
+  artist: string;
+  album: string;
+  length: number;
+  key: string;
+  picture: [
+    {
+      format: string;
+      type: string;
+      description: string;
+      data: Uint8Array;
+    },
+  ];
+  url: string;
+}

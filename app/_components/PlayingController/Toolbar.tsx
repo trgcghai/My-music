@@ -1,4 +1,3 @@
-import Loading from "@components/Loading";
 import {
   pauseSong,
   playNext,
@@ -17,22 +16,63 @@ import {
   SkipNext,
   SkipPrevious,
 } from "@mui/icons-material";
-import { useGetSongByIdQuery } from "@services/songApi";
 import { formatSongLength } from "@utils/formatSongLength";
-import { Progress } from "antd";
-import ReactHowler from "react-howler";
+import CustomSlider from "@components/CustomSlider";
+import { useEffect, useRef, useState } from "react";
+import { InputNumberProps } from "antd";
 
 const Toolbar = () => {
   const dispatch = useAppDispatch();
+  const [currentTime, setCurrentTime] = useState(0);
   const { queue, currentIndex, shuffle, loop, volume, muted, status } =
     useAppSelector((state) => state.queue);
-  const { data, isFetching, isLoading } = useGetSongByIdQuery(
-    queue[currentIndex],
-  );
+  const audioRef = useRef(null);
 
-  if (isLoading || isFetching) {
-    return <Loading />;
-  }
+  useEffect(() => {
+    audioRef.current.volume = volume / 100;
+    audioRef.current.muted = muted;
+  }, [volume, muted]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.play();
+      dispatch(playSong());
+    }
+  }, [currentIndex, dispatch]);
+
+  const handleStop = () => {
+    audioRef.current.pause();
+    dispatch(pauseSong());
+  };
+
+  const handleEnded = () => {
+    dispatch(playNext());
+    setCurrentTime(0);
+  };
+
+  const handleTimeUpdate = () => {
+    setCurrentTime(audioRef.current.currentTime);
+  };
+
+  const handlePlay = () => {
+    audioRef.current.play();
+    dispatch(playSong());
+  };
+
+  const handlePlayNext = () => {
+    dispatch(playNext());
+  };
+
+  const handlePlayPrevious = () => {
+    dispatch(playPrevious());
+  };
+
+  const handleSeek: InputNumberProps["onChange"] = (newValue) => {
+    const audio = audioRef.current;
+    const seekTime = parseFloat(newValue as string);
+    audio.currentTime = seekTime;
+    setCurrentTime(seekTime);
+  };
 
   return (
     <>
@@ -44,27 +84,19 @@ const Toolbar = () => {
               style={{ color: shuffle ? "var(--main)" : "" }}
             />
           </button>
-          <button onClick={() => dispatch(playPrevious())}>
+          <button onClick={handlePlayPrevious}>
             <SkipPrevious fontSize="medium" />
           </button>
           {status === "playing" ? (
-            <button
-              onClick={() => {
-                dispatch(pauseSong());
-              }}
-            >
+            <button onClick={handleStop}>
               <Pause fontSize="medium" />
             </button>
           ) : (
-            <button
-              onClick={() => {
-                dispatch(playSong());
-              }}
-            >
+            <button onClick={handlePlay}>
               <PlayArrow fontSize="medium" />
             </button>
           )}
-          <button onClick={() => dispatch(playNext())}>
+          <button onClick={handlePlayNext}>
             <SkipNext fontSize="medium" />
           </button>
           <button onClick={() => dispatch(toogleLoop())}>
@@ -80,20 +112,28 @@ const Toolbar = () => {
       </div>
 
       <div className="flex items-center gap-2">
-        <span className="flex-1 text-sm text-textColorDark">{"-:--"}</span>
-        <Progress percent={50} showInfo={false} className="flex-[8]" />
         <span className="flex-1 text-sm text-textColorDark">
-          {formatSongLength(data?.result[0]?.duration) == "NaN:NaN"
-            ? "-:--"
-            : formatSongLength(data?.result[0]?.duration)}
+          {queue[currentIndex] ? "0:00" : "-:--"}
         </span>
-        <ReactHowler
-          key={data?.result[0]?._id || ""}
-          src={data?.result[0]?.url || [""]}
-          playing={status === "playing"}
-          volume={volume / 100}
-          mute={muted}
-          onEnd={() => dispatch(playNext())}
+        <CustomSlider
+          onChange={handleSeek}
+          value={currentTime}
+          className="flex-[8]"
+          step={0.01}
+          minValue={0}
+          maxValue={queue[currentIndex]?.length || 0}
+        />
+
+        <span className="flex-1 text-sm text-textColorDark">
+          {formatSongLength(queue[currentIndex]?.length) == "NaN:NaN"
+            ? "-:--"
+            : formatSongLength(queue[currentIndex]?.length)}
+        </span>
+        <audio
+          ref={audioRef}
+          src={queue[currentIndex]?.url || [""]}
+          onEnded={handleEnded}
+          onTimeUpdate={handleTimeUpdate}
         />
       </div>
     </>

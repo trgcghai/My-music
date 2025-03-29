@@ -1,6 +1,6 @@
 import { openModal } from "@libs/features/modal/modalSlice";
 import { addToQueue } from "@libs/features/queue/queueSlice";
-import { useAppDispatch, useAppSelector } from "@hooks/hooks";
+import { useAppDispatch } from "@hooks/hooks";
 import {
   AddCircleOutline,
   DeleteOutline,
@@ -44,21 +44,22 @@ const items: MenuItem[] = [
 const ContextMenu = ({ visible, additionalData }) => {
   const dispatch = useAppDispatch();
   const path = usePathname();
-  const { queue } = useAppSelector((state) => state.queue);
 
   const onClick: MenuProps["onClick"] = (e) => {
     switch (e.key) {
       case "play":
         dispatch(
           addToQueue({
-            queue: [additionalData, ...queue],
+            song: additionalData,
+            type: "addByPlay",
           }),
         );
         break;
       case "addToQueue":
         dispatch(
           addToQueue({
-            queue: [...queue, additionalData],
+            song: additionalData,
+            type: "addByAddToQueue",
           }),
         );
         break;

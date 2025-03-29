@@ -2,7 +2,8 @@
 import { setVolume, toogleMuted } from "@libs/features/queue/queueSlice";
 import { useAppDispatch, useAppSelector } from "@hooks/hooks";
 import { VolumeDown, VolumeMute, VolumeUp } from "@mui/icons-material";
-import { InputNumberProps, Slider } from "antd";
+import { InputNumberProps } from "antd";
+import CustomSlider from "@components/CustomSlider";
 
 const VolumeSlider = () => {
   const dispatch = useAppDispatch();
@@ -29,7 +30,7 @@ const VolumeSlider = () => {
       )}
 
       <div className="w-full">
-        <Slider defaultValue={volume} onChange={onChange} />
+        <CustomSlider step={1} value={volume} onChange={onChange} />
       </div>
     </div>
   );

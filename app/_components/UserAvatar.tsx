@@ -1,4 +1,4 @@
-import { Avatar, ConfigProvider, Popover } from "antd";
+import { Avatar, Popover } from "antd";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useAppSelector } from "@hooks/hooks";
 

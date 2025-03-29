@@ -1,8 +1,7 @@
 import { Drawer } from "antd";
 import CloseIcon from "@mui/icons-material/Close";
 import SongInfoCard from "./SongInfoCard";
-import { SongData } from "_types/entity";
-import { useGetSongByListIdQuery } from "@services/songApi";
+import { SongRowProps } from "_types/component";
 
 const QueueDrawer = ({
   setOpen,
@@ -12,16 +11,12 @@ const QueueDrawer = ({
 }: {
   setOpen: (value: boolean) => void;
   open: boolean;
-  currentSong: SongData;
-  queue: string[];
+  currentSong: SongRowProps;
+  queue: SongRowProps[];
 }) => {
-  const { data } = useGetSongByListIdQuery(queue);
-
   const onClose = () => {
     setOpen(false);
   };
-
-  console.log("check result", data);
 
   return (
     <Drawer
@@ -41,9 +36,16 @@ const QueueDrawer = ({
         <div className="mt-8">
           <p className="text-lg font-bold">Next from your queue</p>
           <div className="mt-2 space-y-4">
-            <div className="mt-2 rounded-lg bg-bgColorDark p-4">
-              <SongInfoCard song={currentSong} />
-            </div>
+            {queue.slice(queue.indexOf(currentSong) + 1).map((song) => {
+              return (
+                <div
+                  key={song.id}
+                  className="mt-2 rounded-lg bg-bgColorDark p-4"
+                >
+                  <SongInfoCard song={song} />
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

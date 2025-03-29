@@ -1,12 +1,10 @@
-import { SongData } from "_types/entity";
+import { SongRowProps } from "_types/component";
 
-const SongInfoCard = ({ song }: { song: SongData }) => {
+const SongInfoCard = ({ song }: { song: SongRowProps }) => {
   return (
     <div>
-      <p className="text-[16px]">{song?.metadata.common.title || ""}</p>
-      <p className="text-md text-textColorDark">
-        {song?.metadata.common.artist || ""}
-      </p>
+      <p className="text-[16px]">{song?.title || ""}</p>
+      <p className="text-md text-textColorDark">{song?.artist || ""}</p>
     </div>
   );
 };

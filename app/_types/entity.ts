@@ -1,10 +1,3 @@
-export interface Song {
-  key: string;
-  name: string;
-  author: string;
-  isFavorite: boolean;
-  length: number;
-}
 export interface SongData {
   _id: string;
   originalName: string;
@@ -31,12 +24,14 @@ export interface SongData {
       artist: string;
       album: string;
       year: number;
-      picture?: Array<{
-        format: string;
-        type: string;
-        description: string;
-        data: Uint8Array;
-      }>;
+      picture?: [
+        {
+          format: string;
+          type: string;
+          description: string;
+          data: Uint8Array;
+        },
+      ];
     };
   };
   createdAt: Date;
@@ -69,5 +64,13 @@ export interface SongInPlaylist {
     artist: string;
     album: string;
     year: number;
+    picture?: [
+      {
+        format: string;
+        type: string;
+        description: string;
+        data: Uint8Array;
+      },
+    ];
   };
 }

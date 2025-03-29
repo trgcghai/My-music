@@ -4,6 +4,7 @@ import { SongData, SongInPlaylist } from "_types/entity";
 import { useContextMenu } from "@hooks/useContextMenu";
 import React from "react";
 import TableSongs from "./TableSongs";
+import { SongRowProps } from "_types/component";
 
 interface SongListProps {
   title: string;
@@ -48,7 +49,9 @@ const SongList = ({
               album: data.album,
               length: song.duration,
               key: song._id,
-            };
+              picture: data.picture,
+              url: song.url,
+            } as SongRowProps;
           })}
           singlePage={singlePage}
           handleContextMenu={handleContextMenu}

@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { shuffleFromIndex } from "@utils/shuffleFromIndex";
+import { SongRowProps } from "_types/component";
 
 interface QueueState {
-  queue: string[];
+  queue: SongRowProps[];
+  originalQueue: SongRowProps[];
   currentIndex: number;
   shuffle: boolean;
   loop: "one" | "all" | "none";
@@ -13,6 +15,7 @@ interface QueueState {
 
 const initialState: QueueState = {
   queue: [],
+  originalQueue: [],
   currentIndex: 0,
   shuffle: false,
   loop: "none",
@@ -26,14 +29,28 @@ export const queueSlice = createSlice({
   initialState,
   reducers: {
     addToQueue: (state, action) => {
-      state.queue = [...state.queue, ...action.payload.queue];
+      if (action.payload.type == "addByPlay") {
+        state.queue = [action.payload.song, ...state.queue];
+        state.currentIndex = 0;
+      } else if (action.payload.type == "addByAddToQueue") {
+        state.queue = [...state.queue, action.payload.song];
+      }
     },
     removeFromQueue: (state, action) => {
       state.queue = state.queue.filter((song) => song !== action.payload.song);
     },
     toggleShuffle: (state) => {
+      if (!state.shuffle) {
+        // Bật shuffle: lưu hàng đợi ban đầu và xáo trộn từ sau currentIndex
+        state.originalQueue = [...state.queue];
+        state.queue = shuffleFromIndex(state.queue, state.currentIndex);
+      } else {
+        // Tắt shuffle: khôi phục hàng đợi ban đầu
+        const fixedPart = state.queue.slice(0, state.currentIndex + 1); // Giữ nguyên từ 0 đến currentIndex
+        const restoredPart = state.originalQueue.slice(state.currentIndex + 1); // Khôi phục từ currentIndex + 1
+        state.queue = [...fixedPart, ...restoredPart];
+      }
       state.shuffle = !state.shuffle;
-      state.queue = shuffleFromIndex(state.queue, state.currentIndex + 1);
     },
     toogleLoop: (state) => {
       if (state.loop === "none") {
@@ -64,10 +81,17 @@ export const queueSlice = createSlice({
         state.loop === "all" &&
         state.currentIndex === state.queue.length - 1
       ) {
+        state.status = "playing";
         state.currentIndex = 0;
-      } else {
-        state.currentIndex = state.currentIndex + 1;
+        return;
       }
+
+      if (state.currentIndex === state.queue.length - 1) {
+        state.status = "paused";
+        return;
+      }
+
+      state.currentIndex = state.currentIndex + 1;
       state.status = "playing";
     },
     playPrevious: (state) => {
@@ -75,10 +99,18 @@ export const queueSlice = createSlice({
         return;
       }
       if (state.loop === "all" && state.currentIndex === 0) {
+        state.status = "playing";
         state.currentIndex = state.queue.length - 1;
-      } else {
-        state.currentIndex = state.currentIndex - 1;
+        return;
       }
+
+      if (state.currentIndex === 0) {
+        state.status = "playing";
+        state.currentIndex = 0;
+        return;
+      }
+
+      state.currentIndex = state.currentIndex - 1;
       state.status = "playing";
     },
   },

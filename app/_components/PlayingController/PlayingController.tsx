@@ -6,29 +6,29 @@ import Toolbar from "./Toolbar";
 import { useState } from "react";
 import QueueDrawer from "./QueueDrawer";
 import { QueueMusic } from "@mui/icons-material";
-import { useGetSongByIdQuery } from "@services/songApi";
 import { useAppSelector } from "@hooks/hooks";
-import Loading from "@components/Loading";
+import { SongRowProps } from "_types/component";
 
 const PlayingController = () => {
   const [open, setOpen] = useState(false);
-  const { queue, currentIndex } = useAppSelector((state) => state.queue);
-  const { data, isFetching, isLoading } = useGetSongByIdQuery(
-    queue[currentIndex],
-  );
+  const {
+    queue,
+    currentIndex,
+  }: {
+    queue: SongRowProps[];
+    currentIndex: number;
+  } = useAppSelector((state) => state.queue);
+
+  console.log(queue[currentIndex]);
 
   const showDrawer = () => {
     setOpen(true);
   };
 
-  if (isLoading || isFetching) {
-    return <Loading />;
-  }
-
   return (
     <div className="flex h-20 items-center justify-between bg-bgColorDark px-4 text-textColor">
       <div className="flex w-1/5 items-center gap-2">
-        <SongInfoCard song={data.result[0]} />
+        <SongInfoCard song={queue[currentIndex]} />
       </div>
 
       <div className="w-1/5">
@@ -40,7 +40,7 @@ const PlayingController = () => {
         <QueueDrawer
           setOpen={setOpen}
           open={open}
-          currentSong={data.result[0]}
+          currentSong={queue[currentIndex]}
           queue={queue}
         />
         <VolumeSlider />

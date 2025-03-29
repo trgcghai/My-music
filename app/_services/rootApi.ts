@@ -12,9 +12,9 @@ import { LoginFormData, RegisterFormData } from "_types/component";
 export const rootApi = createApi({
   reducerPath: "rootApi",
   baseQuery: baseQueryWithReauth,
-  refetchOnFocus: true,
   refetchOnReconnect: true,
-  refetchOnMountOrArgChange: 20,
+  refetchOnMountOrArgChange: 60,
+  keepUnusedDataFor: 60,
   tagTypes: ["Song", "Playlist"],
   endpoints: (builder) => {
     return {
