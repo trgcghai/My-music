@@ -12,7 +12,7 @@ const RemoveFromPlaylistModal = (props: DynamicModalProps) => {
   const [removeSongFromPlaylist] = useRemoveSongFromPlaylistMutation();
 
   const handleConfirm = async () => {
-    const { songId } = data;
+    const { id: songId } = data;
     const playlistId = typeof id === "string" ? id : "";
 
     await removeSongFromPlaylist({

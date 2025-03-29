@@ -32,6 +32,7 @@ export const queueSlice = createSlice({
       if (action.payload.type == "addByPlay") {
         state.queue = [action.payload.song, ...state.queue];
         state.currentIndex = 0;
+        state.status = "playing";
       } else if (action.payload.type == "addByAddToQueue") {
         state.queue = [...state.queue, action.payload.song];
       }

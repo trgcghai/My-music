@@ -39,7 +39,7 @@ const QueueDrawer = ({
             {queue.slice(queue.indexOf(currentSong) + 1).map((song) => {
               return (
                 <div
-                  key={song.id}
+                  key={song.id + song.index}
                   className="mt-2 rounded-lg bg-bgColorDark p-4"
                 >
                   <SongInfoCard song={song} />

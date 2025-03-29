@@ -68,9 +68,7 @@ const ContextMenu = ({ visible, additionalData }) => {
           openModal({
             type: ModalType.ADD_TO_PLAYLIST,
             title: "Add to playlist",
-            data: {
-              songId: additionalData,
-            },
+            data: additionalData,
           }),
         );
         break;
@@ -80,9 +78,7 @@ const ContextMenu = ({ visible, additionalData }) => {
           openModal({
             type: ModalType.REMOVE_FROM_PLAYLIST,
             title: "Remove from playlist",
-            data: {
-              songId: additionalData,
-            },
+            data: additionalData,
           }),
         );
         break;
@@ -117,6 +113,7 @@ const ContextMenu = ({ visible, additionalData }) => {
           style={{
             width: "250px",
             borderRadius: "12px",
+            zIndex: 9999,
           }}
         />
       )}

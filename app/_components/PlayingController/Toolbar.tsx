@@ -34,11 +34,12 @@ const Toolbar = () => {
   }, [volume, muted]);
 
   useEffect(() => {
-    if (audioRef.current) {
+    if (audioRef.current && queue[currentIndex]) {
+      audioRef.current.src = queue[currentIndex].url;
       audioRef.current.play();
       dispatch(playSong());
     }
-  }, [currentIndex, dispatch]);
+  }, [currentIndex, dispatch, queue]);
 
   const handleStop = () => {
     audioRef.current.pause();

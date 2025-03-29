@@ -68,7 +68,7 @@ const AddToPlaylistModal = (props: DynamicModalProps) => {
   } = useGetPlaylistByEmailQuery(userInfo.email);
   const [addSongToPlaylist] = useAddSongToPlaylistMutation();
   const [createPlaylistWithSong] = useCreatePlaylistWithSongMutation();
-  const { data: songData } = useGetSongByIdQuery(data.songId);
+  const { data: songData } = useGetSongByIdQuery(data.id);
 
   const handleCreatePlaylistWithSong = async () => {
     const title = songData.result[0].metadata.common.title;
