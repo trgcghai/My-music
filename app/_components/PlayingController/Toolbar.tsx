@@ -29,7 +29,7 @@ const Toolbar = () => {
   const audioRef = useRef(null);
 
   useEffect(() => {
-    audioRef.current.volume = volume / 100;
+    audioRef.current.volume = volume / 1000;
     audioRef.current.muted = muted;
   }, [volume, muted]);
 

@@ -1,6 +1,6 @@
 import { openModal } from "@libs/features/modal/modalSlice";
-import { addToQueue } from "@libs/features/queue/queueSlice";
-import { useAppDispatch } from "@hooks/hooks";
+import { addToQueue, removeFromQueue } from "@libs/features/queue/queueSlice";
+import { useAppDispatch, useAppSelector } from "@hooks/hooks";
 import {
   AddCircleOutline,
   DeleteOutline,
@@ -9,7 +9,7 @@ import {
 } from "@mui/icons-material";
 import { ModalType } from "_types/component";
 import { ConfigProvider, Menu, MenuProps } from "antd";
-import { usePathname } from "next/navigation";
+import { useMemo } from "react";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -39,11 +39,28 @@ const items: MenuItem[] = [
     className: "text-[16px]",
     danger: true,
   },
+  {
+    key: "removeFromQueue",
+    label: "Remove from queue",
+    icon: <DeleteOutline />,
+    className: "text-[16px]",
+  },
 ];
 
-const ContextMenu = ({ visible, additionalData }) => {
+const ContextMenu = ({
+  visible,
+  additionalData,
+  showRemoveFromPlaylist = false,
+  showRemoveFromQueue = false,
+}: {
+  visible: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  additionalData: any;
+  showRemoveFromPlaylist?: boolean;
+  showRemoveFromQueue?: boolean;
+}) => {
   const dispatch = useAppDispatch();
-  const path = usePathname();
+  const { queue } = useAppSelector((state) => state.queue);
 
   const onClick: MenuProps["onClick"] = (e) => {
     switch (e.key) {
@@ -73,7 +90,6 @@ const ContextMenu = ({ visible, additionalData }) => {
         );
         break;
       case "removeFromPlaylist":
-        console.log("remove from this playlist");
         dispatch(
           openModal({
             type: ModalType.REMOVE_FROM_PLAYLIST,
@@ -82,9 +98,31 @@ const ContextMenu = ({ visible, additionalData }) => {
           }),
         );
         break;
+      case "removeFromQueue":
+        console.log("removeFromQueue", additionalData);
+        console.log("queue: ", queue);
+        dispatch(
+          removeFromQueue({
+            song: additionalData,
+          }),
+        );
+        break;
       default:
     }
   };
+
+  const filteredItems = useMemo(() => {
+    let res = [...items];
+
+    if (!showRemoveFromPlaylist) {
+      res = res.filter((item) => item.key !== "removeFromPlaylist");
+    }
+    if (!showRemoveFromQueue) {
+      res = res.filter((item) => item.key !== "removeFromQueue");
+    }
+
+    return res;
+  }, [showRemoveFromPlaylist, showRemoveFromQueue]);
 
   return (
     <ConfigProvider
@@ -105,11 +143,7 @@ const ContextMenu = ({ visible, additionalData }) => {
       {visible && (
         <Menu
           onClick={onClick}
-          items={
-            path.includes("playlist")
-              ? items
-              : items.filter((item) => item.key !== "removeFromPlaylist")
-          }
+          items={filteredItems}
           style={{
             width: "250px",
             borderRadius: "12px",

@@ -2,6 +2,7 @@
 import { signOut } from "@libs/features/auth/authSlice";
 import { useAppDispatch } from "@hooks/hooks";
 import {
+  AccountCircle,
   Audiotrack,
   HomeRounded,
   Logout,
@@ -46,9 +47,9 @@ const NavbarItem = ({
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const [logOut] = useSignOutMutation()
+  const [logOut] = useSignOutMutation();
   const handleLogout = async () => {
-    await logOut().unwrap()
+    await logOut().unwrap();
     dispatch(signOut());
     router.push("/login");
   };
@@ -63,6 +64,11 @@ const Navbar = () => {
           content="Playlist"
         />
         <NavbarItem href="/song" icon={<Audiotrack />} content="Song" />
+        <NavbarItem
+          href="/profile"
+          icon={<AccountCircle />}
+          content="Profile"
+        />
       </div>
 
       <Button

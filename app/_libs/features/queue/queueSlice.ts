@@ -38,7 +38,9 @@ export const queueSlice = createSlice({
       }
     },
     removeFromQueue: (state, action) => {
-      state.queue = state.queue.filter((song) => song !== action.payload.song);
+      state.queue = [
+        ...state.queue.filter((song) => song.id != action.payload.song.id),
+      ];
     },
     toggleShuffle: (state) => {
       if (!state.shuffle) {
